@@ -4,7 +4,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { BrowserRouter, Route, Router, Routes } from "react-router";
-import { MateriasPage } from "./pages/materias/materiasPage";
+import { MateriasPage } from "./pages/materias/MateriasPage";
+import "./app.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
