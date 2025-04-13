@@ -1,4 +1,4 @@
-import { Box, ClientOnly, Heading, Skeleton, VStack } from "@chakra-ui/react";
+import { Box, ClientOnly, Skeleton, VStack } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { ColorModeToggle } from "./components/color-mode-toggle";
 
