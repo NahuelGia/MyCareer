@@ -8,17 +8,28 @@ import {
   Controls,
 } from "@xyflow/react";
 import { edgesMockup, nodesMockup } from "../../utils/NodesAndEdgesMockup";
-import { getLayoutedElements } from "../../helper/TreeChatHelper";
+import {
+  assignDefaultHandlePositions,
+  getLayoutedElements,
+} from "../../helper/TreeChatHelper";
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode";
+import data from "../../utils/jsonDbs/tpi.json";
 
 const nodeTypes = {
   custom: CustomNode,
 };
 
 const AcademicTree = () => {
+  const { materias, conexiones } = data;
+
   const layoutedData = useMemo(
-    () => getLayoutedElements(nodesMockup, edgesMockup, "LR"),
+    () =>
+      getLayoutedElements(
+        assignDefaultHandlePositions(materias, conexiones),
+        conexiones,
+        "LR"
+      ),
     []
   );
 
@@ -36,7 +47,7 @@ const AcademicTree = () => {
       fitView
     >
       <Background />
-      <Controls/>
+      <Controls />
     </ReactFlow>
   );
 };
