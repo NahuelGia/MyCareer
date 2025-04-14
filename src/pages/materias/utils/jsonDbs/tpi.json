@@ -99,7 +99,7 @@
         "status": "Pendiente",
         "weeklyHours": 6,
         "credits": 12,
-        "prerequisites": [],
+        "prerequisites": ["Matemática I"],
         "degreeModule": "Núcleo básico obligatorio"
       },
       "type": "custom"
@@ -288,7 +288,7 @@
         "status": "Pendiente",
         "weeklyHours": 4,
         "credits": 8,
-        "prerequisites": [],
+        "prerequisites": ["Bases de Datos"],
         "degreeModule": "Núcleo Complementario"
       },
       "type": "custom"
@@ -314,7 +314,7 @@
         "status": "Pendiente",
         "weeklyHours": 4,
         "credits": 8,
-        "prerequisites": [],
+        "prerequisites": ["Programación Concurrente", "Seguridad Informática"],
         "degreeModule": "Núcleo Complementario"
       },
       "type": "custom"
@@ -327,7 +327,7 @@
         "status": "Pendiente",
         "weeklyHours": 4,
         "credits": 8,
-        "prerequisites": [],
+        "prerequisites": ["Programación con Objetos II"],
         "degreeModule": "Núcleo Complementario"
       },
       "type": "custom"
@@ -437,5 +437,33 @@
       "type": "custom"
     }
   ],
-  "conexiones": [{ "id": "e1-5", "source": "1", "target": "5" }]
+  "conexiones": [
+    { "id": "e3-4", "source": "3", "target": "4" },
+    { "id": "e3-5", "source": "3", "target": "5" },
+    { "id": "e3-6", "source": "3", "target": "6" },
+    { "id": "e2-6", "source": "2", "target": "6" },
+    { "id": "e4-7", "source": "4", "target": "7" },
+    { "id": "e4-9", "source": "4", "target": "9" },
+    { "id": "e7-10", "source": "7", "target": "10" },
+    { "id": "e5-11", "source": "5", "target": "11" },
+    { "id": "e4-12", "source": "4", "target": "12" },
+    { "id": "e5-12", "source": "5", "target": "12" },
+    { "id": "e9-13", "source": "9", "target": "13" },
+    { "id": "e6-8", "source": "6", "target": "8" },
+    { "id": "e6-14", "source": "6", "target": "14" },
+    { "id": "e10-15", "source": "10", "target": "15" },
+    { "id": "e10-16", "source": "10", "target": "16" },
+    { "id": "e10-25", "source": "10", "target": "25" },
+    { "id": "e8-17", "source": "8", "target": "17" },
+    { "id": "e8-22", "source": "8", "target": "22" },
+    { "id": "e10-17", "source": "10", "target": "17" },
+    { "id": "e9-18", "source": "9", "target": "18" },
+    { "id": "e16-19", "source": "16", "target": "19" },
+    { "id": "e15-19", "source": "15", "target": "19" },
+    { "id": "e17-19", "source": "17", "target": "19" },
+    { "id": "e12-20", "source": "12", "target": "20" },
+    { "id": "e11-20", "source": "11", "target": "20" },
+    { "id": "e13-24", "source": "13", "target": "24" },
+    { "id": "e21-24", "source": "21", "target": "24" }
+  ]
 }
