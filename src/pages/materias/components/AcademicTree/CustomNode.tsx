@@ -1,39 +1,67 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Handle, Position } from "@xyflow/react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { SubjectStates } from "../../utils/SubjectStates";
 import { getNodeColor } from "../../helper/TreeChatHelper";
+import { Selector } from "./Selector";
 
 const CustomNode = ({
-  data,
-  sourcePosition,
-  targetPosition,
+	data,
+	sourcePosition,
+	targetPosition,
 }: {
-  data: any;
-  sourcePosition?: Position;
-  targetPosition?: Position;
+	data: any;
+	sourcePosition?: Position;
+	targetPosition?: Position;
 }) => {
+	return (
+		<Box
+			bg={getNodeColor(data.status)}
+			borderWidth="1px"
+			borderColor="gray.800"
+			borderRadius="md"
+			minW={"8rem"}
+			minH={"4rem"}
+			p={1}
+			color="black"
+			boxShadow="none"
+			position="relative"
+         transition="all 0.2s ease-in-out"
+         _hover={{
+            transform: "scale(1.05)",
+            boxShadow: "md",
+         }}
+		>
+			{targetPosition && <Handle type="target" position={targetPosition} />}
 
-  return (
-    <Box
-      bg={getNodeColor(data.status)}
-      borderWidth="1px"
-      borderColor="gray.800"
-      borderRadius="md"
-      width="9.5rem"
-      p={3}
-      color="black"
-      boxShadow="none"
-      position="relative"
-      textAlign={"center"}
-    >
-      {targetPosition && <Handle type="target" position={targetPosition} />}
+			<Center minH={"4rem"} minW="8rem">
+				<Flex
+					direction="row"
+					alignItems="center"
+					justify="space-evenly"
+					w="100%"
+					h="100%"
+				>
+					<Flex direction="column" justify="center">
+						<Text
+							maxWidth="6rem"
+							textStyle="xs"
+							wordBreak="break-word"
+							textAlign="center"
+						>
+							{data.label}
+						</Text>
+					</Flex>
 
-      <Text textStyle={"xs"}>{data.label}</Text>
+					<Flex align="center" justify="center" h="100%">
+						<Selector />
+					</Flex>
+				</Flex>
+			</Center>
 
-      {sourcePosition && <Handle type="source" position={sourcePosition} />}
-    </Box>
-  );
+			{sourcePosition && <Handle type="source" position={sourcePosition} />}
+		</Box>
+	);
 };
 
 export default memo(CustomNode);
