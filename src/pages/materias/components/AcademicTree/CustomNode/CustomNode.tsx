@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 import { Handle, Position } from "@xyflow/react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
-import { SubjectStates } from "../../utils/SubjectStates";
-import { getNodeColor } from "../../helper/TreeChatHelper";
+import { SubjectStates } from "../../../utils/SubjectStates";
+import { getNodeColor } from "../../../helper/TreeChatHelper";
 import { Selector } from "./Selector";
 
 const CustomNode = ({
@@ -14,9 +14,12 @@ const CustomNode = ({
 	sourcePosition?: Position;
 	targetPosition?: Position;
 }) => {
+
+	const [status, setStatus] = useState(data.status);
+
 	return (
 		<Box
-			bg={getNodeColor(data.status)}
+			bg={getNodeColor(status)}
 			borderWidth="1px"
 			borderColor="gray.800"
 			borderRadius="md"
@@ -26,11 +29,11 @@ const CustomNode = ({
 			color="black"
 			boxShadow="none"
 			position="relative"
-         transition="all 0.2s ease-in-out"
-         _hover={{
-            transform: "scale(1.05)",
-            boxShadow: "md",
-         }}
+			transition="all 0.2s ease-in-out"
+			_hover={{
+				transform: "scale(1.05)",
+				boxShadow: "md",
+			}}
 		>
 			{targetPosition && <Handle type="target" position={targetPosition} />}
 
@@ -54,7 +57,7 @@ const CustomNode = ({
 					</Flex>
 
 					<Flex align="center" justify="center" h="100%">
-						<Selector />
+						<Selector onChangeStatus={(newStatus) => setStatus(newStatus)} />
 					</Flex>
 				</Flex>
 			</Center>

@@ -33,13 +33,20 @@ const ButtonSelector = () => {
 	);
 };
 
-export const Selector = () => {
+export const Selector = ({
+	onChangeStatus,
+}: {
+	onChangeStatus: (newStatus: string) => void;
+}) => {
 	return (
 		<Select.Root
 			positioning={{ sameWidth: false }}
 			collection={states}
 			size="md"
 			defaultValue={["Pendiente"]}
+			onValueChange={(value) => {
+				onChangeStatus(value.value[0]);
+			}}
 		>
 			<Select.HiddenSelect />
 			<Select.Control>
@@ -52,9 +59,12 @@ export const Selector = () => {
 							<Select.Item
 								key={state.value}
 								item={state}
-								_selected={{ bg: "#FFFF", color: "#09090b", fontWeight: "bold" }}
-								_hover={{ bg: "#FFFE", cursor: "pointer"}}
-
+								_selected={{
+									bg: "#FFFF",
+									color: "#09090b",
+									fontWeight: "bold",
+								}}
+								_hover={{ bg: "#FFFE", cursor: "pointer" }}
 							>
 								<HStack>
 									{state.icon}
@@ -71,9 +81,9 @@ export const Selector = () => {
 
 const states = createListCollection({
 	items: [
-		{ label: "Completada", value: "react", icon: <RiCheckLine /> },
-		{ label: "Pendiente", value: "vue", icon: <RiTimeLine /> },
-		{ label: "En curso", value: "angular", icon: <RiLoader4Line /> },
+		{ label: "Completada", value: "Completada", icon: <RiCheckLine /> },
+		{ label: "Pendiente", value: "Pendiente", icon: <RiTimeLine /> },
+		{ label: "En curso", value: "En curso", icon: <RiLoader4Line /> },
 	],
 });
 
