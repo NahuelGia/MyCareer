@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
 import { Handle, Position } from "@xyflow/react";
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
-import { SubjectStates } from "../../../utils/SubjectStates";
 import { getNodeColor } from "../../../helper/TreeChatHelper";
 import { Selector } from "./Selector";
+import { DegreeModule } from "../../../../../types/enums/degreeModule";
 
 const CustomNode = ({
 	data,
@@ -17,11 +17,13 @@ const CustomNode = ({
 
 	const [status, setStatus] = useState(data.status);
 
+	const degree = data.degreeModule;
 	return (
 		<Box
 			bg={getNodeColor(status)}
-			borderWidth="1px"
-			borderColor="gray.800"
+			borderWidth={degree == DegreeModule.COMPLEMENTARIO ? "1.5px" : "1px"}
+			borderColor={degree == DegreeModule.COMPLEMENTARIO ?  "red.400" : "gray.800"}
+			borderStyle={degree == DegreeModule.COMPLEMENTARIO ? "dashed" : "solid"}
 			borderRadius="md"
 			minW={"8rem"}
 			minH={"4rem"}

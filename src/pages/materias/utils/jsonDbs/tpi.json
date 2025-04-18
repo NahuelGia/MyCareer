@@ -1,469 +1,568 @@
 {
-  "materias": [
-    {
-      "id": "1",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Lectura y escritura académica",
-        "status": "Pendiente",
-        "weeklyHours": 5,
-        "credits": 10,
-        "prerequisites": [],
-        "degreeModule": "Ciclo Introductorio"
+   "materias": [
+      {
+         "id": "1",
+         "position": {
+            "x": 521.2330269870107,
+            "y": -181.99574998606042
+         },
+         "data": {
+            "label": "Lectura y escritura académica",
+            "status": "Pendiente",
+            "weeklyHours": 5,
+            "credits": 10,
+            "prerequisites": [],
+            "degreeModule": "Ciclo Introductorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "2",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Matemática",
-        "status": "Pendiente",
-        "weeklyHours": 5,
-        "credits": 10,
-        "prerequisites": [],
-        "degreeModule": "Ciclo Introductorio"
+      {
+         "id": "2",
+         "position": {
+            "x": 136.4835814823722,
+            "y": -184.56127198109132
+         },
+         "data": {
+            "label": "Matemática",
+            "status": "Pendiente",
+            "weeklyHours": 5,
+            "credits": 10,
+            "prerequisites": [],
+            "degreeModule": "Ciclo Introductorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "3",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Elementos de programación y lógica",
-        "status": "Pendiente",
-        "weeklyHours": 5,
-        "credits": 10,
-        "prerequisites": [],
-        "degreeModule": "Ciclo Introductorio"
+      {
+         "id": "3",
+         "position": {
+            "x": 333.28214788452135,
+            "y": -183.1711488116917
+         },
+         "data": {
+            "label": "Elementos de programación y lógica",
+            "status": "Pendiente",
+            "weeklyHours": 5,
+            "credits": 10,
+            "prerequisites": [],
+            "degreeModule": "Ciclo Introductorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "4",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Introducción a la Programación",
-        "status": "Pendiente",
-        "weeklyHours": 8,
-        "credits": 16,
-        "prerequisites": ["Elementos de programación y lógica"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "6",
+         "position": {
+            "x": 136.90178381098266,
+            "y": -1.296414852370873
+         },
+         "data": {
+            "label": "Matemática I",
+            "status": "Pendiente",
+            "weeklyHours": 8,
+            "credits": 16,
+            "prerequisites": ["Elementos de programación y lógica", "Matemática"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "5",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Organización de Computadoras",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Elementos de programación y lógica"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "4",
+         "position": {
+            "x": 552.3172162429888,
+            "y": -1.0367219704231871
+         },
+         "data": {
+            "label": "Introducción a la Programación",
+            "status": "Pendiente",
+            "weeklyHours": 8,
+            "credits": 16,
+            "prerequisites": ["Elementos de programación y lógica"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "6",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Matemática I",
-        "status": "Pendiente",
-        "weeklyHours": 8,
-        "credits": 16,
-        "prerequisites": ["Elementos de programación y lógica", "Matemática"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "5",
+         "position": {
+            "x": 333.2588988734077,
+            "y": 1.4756739550233462
+         },
+         "data": {
+            "label": "Organización de Computadoras",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Elementos de programación y lógica"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "7",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Programación con Objetos I",
-        "status": "Pendiente",
-        "weeklyHours": 8,
-        "credits": 16,
-        "prerequisites": ["Introducción a la Programación"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "7",
+         "position": {
+            "x": 769.4287208394934,
+            "y": 176.2967396374753
+         },
+         "data": {
+            "label": "Programación con Objetos I",
+            "status": "Pendiente",
+            "weeklyHours": 8,
+            "credits": 16,
+            "prerequisites": ["Introducción a la Programación"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "8",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Bases de Datos",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Matemática I"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "8",
+         "position": {
+            "x": 235.99999999999983,
+            "y": 372
+         },
+         "data": {
+            "label": "Bases de Datos",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Matemática I"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "9",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Estructuras de Datos",
-        "status": "Pendiente",
-        "weeklyHours": 8,
-        "credits": 16,
-        "prerequisites": ["Introducción a la Programación"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "9",
+         "position": {
+            "x": 985.2511101370645,
+            "y": 176.86828775670566
+         },
+         "data": {
+            "label": "Estructuras de Datos",
+            "status": "Pendiente",
+            "weeklyHours": 8,
+            "credits": 16,
+            "prerequisites": ["Introducción a la Programación"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "10",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Programación con Objetos II",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Programación con Objetos I"],
-        "degreeModule": "Núcleo básico obligatorio"
+      {
+         "id": "10",
+         "position": {
+            "x": 769.5498260139998,
+            "y": 354.43828271481846
+         },
+         "data": {
+            "label": "Programación con Objetos II",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Programación con Objetos I"],
+            "degreeModule": "Núcleo básico obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "11",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Redes de Computadoras",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Organización de Computadoras"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "19",
+         "position": {
+            "x": 613.6644355556649,
+            "y": 651.705884538958
+         },
+         "data": {
+            "label": "Desarrollo de Aplicaciones",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": [
+               "Construcción de Interfaces de Usuario",
+               "Elementos de Ingeniería de Software",
+               "Estrategias de Persistencia"
+            ],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "12",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Sistemas Operativos",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": [
-          "Introducción a la Programación",
-          "Organización de Computadoras"
-        ],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "12",
+         "position": {
+            "x": 552.4848620029098,
+            "y": 173.05175138775493
+         },
+         "data": {
+            "label": "Sistemas Operativos",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": [
+               "Introducción a la Programación",
+               "Organización de Computadoras"
+            ],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "13",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Programación Concurrente",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Estructuras de Datos"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "17",
+         "position": {
+            "x": 437.06075501386607,
+            "y": 513.6609646608842
+         },
+         "data": {
+            "label": "Estrategias de Persistencia",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Base de Datos", "Programación con Objetos II"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "14",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Matemática II",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Matemática I"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "20",
+         "position": {
+            "x": 450.64450808929854,
+            "y": 373.2553326596107
+         },
+         "data": {
+            "label": "Laboratorio de Sistemas Operativos y Redes",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Sistemas Operativos", "Redes de Computadoras"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "15",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Elementos de Ingeniería de Software",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Programación con Objetos II"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "11",
+         "position": {
+            "x": 333.56299959993504,
+            "y": 170.9321789569864
+         },
+         "data": {
+            "label": "Redes de Computadoras",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Organización de Computadoras"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "16",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Construcción de Interfaces de Usuario",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Programación con Objetos II"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "13",
+         "position": {
+            "x": 1175.9801630368308,
+            "y": 364.86048240353796
+         },
+         "data": {
+            "label": "Programación Concurrente",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Estructuras de Datos"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "17",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Estrategias de Persistencia",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": ["Base de Datos", "Programación con Objetos II"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "14",
+         "position": {
+            "x": 44.999999999999886,
+            "y": 372
+         },
+         "data": {
+            "label": "Matemática II",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Matemática I"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "18",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Programación Funcional",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Estructuras de Datos"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "15",
+         "position": {
+            "x": 769.371877676272,
+            "y": 512.1649496269213
+         },
+         "data": {
+            "label": "Elementos de Ingeniería de Software",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Programación con Objetos II"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "19",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Desarrollo de Aplicaciones",
-        "status": "Pendiente",
-        "weeklyHours": 6,
-        "credits": 12,
-        "prerequisites": [
-          "Construcción de Interfaces de Usuario",
-          "Elementos de Ingeniería de Software",
-          "Estrategias de Persistencia"
-        ],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "16",
+         "position": {
+            "x": 613.5114813663433,
+            "y": 513.7474175070652
+         },
+         "data": {
+            "label": "Construcción de Interfaces de Usuario",
+            "status": "Pendiente",
+            "weeklyHours": 6,
+            "credits": 12,
+            "prerequisites": ["Programación con Objetos II"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "20",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Laboratorio de Sistemas Operativos y Redes",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Sistemas Operativos", "Redes de Computadoras"],
-        "degreeModule": "Núcleo avanzado obligatorio"
+      {
+         "id": "18",
+         "position": {
+            "x": 984.9861423454829,
+            "y": 356.3037413641468
+         },
+         "data": {
+            "label": "Programación Funcional",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Estructuras de Datos"],
+            "degreeModule": "Núcleo avanzado obligatorio"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "21",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Seguridad Informática",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "24",
+         "position": {
+            "x": 1281.3136658813141,
+            "y": 518.1018066005739
+         },
+         "data": {
+            "label": "Introducción a las Arquitecturas de Software",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Programación Concurrente", "Seguridad Informática"],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "22",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Bases de Datos II",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Bases de Datos"],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "22",
+         "position": {
+            "x": 235.8621394182698,
+            "y": 512.6426974423765
+         },
+         "data": {
+            "label": "Bases de Datos II",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Bases de Datos"],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "23",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Participación y Gestión en Proyectos de Software Libre",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "25",
+         "position": {
+            "x": 947.9529190296344,
+            "y": 513.4750371617462
+         },
+         "data": {
+            "label": "Programación con Objetos III",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": ["Programación con Objetos II"],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "24",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Introducción a las Arquitecturas de Software",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Programación Concurrente", "Seguridad Informática"],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "21",
+         "position": {
+            "x": 1405.4810265839594,
+            "y": 366.389469249636
+         },
+         "data": {
+            "label": "Seguridad Informática",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "25",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Programación con Objetos III",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": ["Programación con Objetos II"],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "23",
+         "position": {
+            "x": 1101.5504716974071,
+            "y": 714.7220236344356
+         },
+         "data": {
+            "label": "Participación y Gestión en Proyectos de Software Libre",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "26",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Introducción a la Bioinformática",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "26",
+         "position": {
+            "x": 1412.7844399459373,
+            "y": 627.1893413124038
+         },
+         "data": {
+            "label": "Introducción a la Bioinformática",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "27",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Políticas Públicas en la Sociedad de la Información y la Era Digital",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "27",
+         "position": {
+            "x": 1569.8930580760853,
+            "y": 718.3645704417825
+         },
+         "data": {
+            "label": "Políticas Públicas en la Sociedad de la Información y la Era Digital",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "28",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Sistemas de Información Geográfica",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "28",
+         "position": {
+            "x": 1261.3213308269198,
+            "y": 716.5510330686334
+         },
+         "data": {
+            "label": "Sistemas de Información Geográfica",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "29",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Herramientas Declarativas en Programación",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "29",
+         "position": {
+            "x": 1412.526262736225,
+            "y": 717.0241148996834
+         },
+         "data": {
+            "label": "Herramientas Declarativas en Programación",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "30",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Introducción al Desarrollo de Videojuegos",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "30",
+         "position": {
+            "x": 1259.144530320652,
+            "y": 629.9050951309559
+         },
+         "data": {
+            "label": "Introducción al Desarrollo de Videojuegos",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "31",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Derechos de Autor y Derechos de Copia en la Era Digital",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "31",
+         "position": {
+            "x": 947.2592333775499,
+            "y": 630.1655049764857
+         },
+         "data": {
+            "label": "Derechos de Autor y Derechos de Copia en la Era Digital",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "32",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Seminarios",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
+      {
+         "id": "32",
+         "position": {
+            "x": 945.6125,
+            "y": 718.50625
+         },
+         "data": {
+            "label": "Seminarios",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
       },
-      "type": "custom"
-    },
-    {
-      "id": "33",
-      "position": { "x": 100, "y": 50 },
-      "data": {
-        "label": "Seminarios sobre Herramientas o Técnicas Puntuales",
-        "status": "Pendiente",
-        "weeklyHours": 4,
-        "credits": 8,
-        "prerequisites": [],
-        "degreeModule": "Núcleo Complementario"
-      },
-      "type": "custom"
-    }
-  ],
-  "conexiones": [
-    { "id": "e3-4", "source": "3", "target": "4" },
-    { "id": "e3-5", "source": "3", "target": "5" },
-    { "id": "e3-6", "source": "3", "target": "6" },
-    { "id": "e2-6", "source": "2", "target": "6" },
-    { "id": "e4-7", "source": "4", "target": "7" },
-    { "id": "e4-9", "source": "4", "target": "9" },
-    { "id": "e7-10", "source": "7", "target": "10" },
-    { "id": "e5-11", "source": "5", "target": "11" },
-    { "id": "e4-12", "source": "4", "target": "12" },
-    { "id": "e5-12", "source": "5", "target": "12" },
-    { "id": "e9-13", "source": "9", "target": "13" },
-    { "id": "e6-8", "source": "6", "target": "8" },
-    { "id": "e6-14", "source": "6", "target": "14" },
-    { "id": "e10-15", "source": "10", "target": "15" },
-    { "id": "e10-16", "source": "10", "target": "16" },
-    { "id": "e10-25", "source": "10", "target": "25" },
-    { "id": "e8-17", "source": "8", "target": "17" },
-    { "id": "e8-22", "source": "8", "target": "22" },
-    { "id": "e10-17", "source": "10", "target": "17" },
-    { "id": "e9-18", "source": "9", "target": "18" },
-    { "id": "e16-19", "source": "16", "target": "19" },
-    { "id": "e15-19", "source": "15", "target": "19" },
-    { "id": "e17-19", "source": "17", "target": "19" },
-    { "id": "e12-20", "source": "12", "target": "20" },
-    { "id": "e11-20", "source": "11", "target": "20" },
-    { "id": "e13-24", "source": "13", "target": "24" },
-    { "id": "e21-24", "source": "21", "target": "24" }
-  ]
+      {
+         "id": "33",
+         "position": {
+            "x": 1102.9218672205327,
+            "y": 630.654943293706
+         },
+         "data": {
+            "label": "Seminarios sobre Herramientas o Técnicas Puntuales",
+            "status": "Pendiente",
+            "weeklyHours": 4,
+            "credits": 8,
+            "prerequisites": [],
+            "degreeModule": "Núcleo Complementario"
+         },
+         "type": "custom"
+      }
+   ],
+   "conexiones": [
+      { "id": "e3-4", "source": "3", "target": "4" },
+      { "id": "e3-5", "source": "3", "target": "5" },
+      { "id": "e3-6", "source": "3", "target": "6" },
+      { "id": "e2-6", "source": "2", "target": "6" },
+      { "id": "e4-7", "source": "4", "target": "7" },
+      { "id": "e4-9", "source": "4", "target": "9" },
+      { "id": "e7-10", "source": "7", "target": "10" },
+      { "id": "e5-11", "source": "5", "target": "11" },
+      { "id": "e4-12", "source": "4", "target": "12" },
+      { "id": "e5-12", "source": "5", "target": "12" },
+      { "id": "e9-13", "source": "9", "target": "13" },
+      { "id": "e6-8", "source": "6", "target": "8" },
+      { "id": "e6-14", "source": "6", "target": "14" },
+      { "id": "e10-15", "source": "10", "target": "15" },
+      { "id": "e10-16", "source": "10", "target": "16" },
+      { "id": "e10-25", "source": "10", "target": "25" },
+      { "id": "e8-17", "source": "8", "target": "17" },
+      { "id": "e8-22", "source": "8", "target": "22" },
+      { "id": "e10-17", "source": "10", "target": "17" },
+      { "id": "e9-18", "source": "9", "target": "18" },
+      { "id": "e16-19", "source": "16", "target": "19" },
+      { "id": "e15-19", "source": "15", "target": "19" },
+      { "id": "e17-19", "source": "17", "target": "19" },
+      { "id": "e12-20", "source": "12", "target": "20" },
+      { "id": "e11-20", "source": "11", "target": "20" },
+      { "id": "e13-24", "source": "13", "target": "24" },
+      { "id": "e21-24", "source": "21", "target": "24" }
+   ]
 }
