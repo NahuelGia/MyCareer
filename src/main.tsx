@@ -8,16 +8,17 @@ import { MateriasPage } from "./pages/materias/MateriasPage";
 import "./app.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<ChakraProvider value={defaultSystem}>
-			<ThemeProvider attribute="class" disableTransitionOnChange>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<App />} />
-            <Route path="/materias" element={<MateriasPage />} />
-					</Routes>
-				</BrowserRouter>
-			</ThemeProvider>
-		</ChakraProvider>
-	</React.StrictMode>
+   <React.StrictMode>
+      <ChakraProvider value={defaultSystem}>
+         <ThemeProvider attribute="class" disableTransitionOnChange>
+            <BrowserRouter>
+               <Routes>
+                  <Route path="/" element={<MateriasPage />} />
+                  {/* <Route path="/" element={<App />} /> */}
+                  {/* Cuando tengamos la pantalla de inicio Materias debe estar en /materias */}
+               </Routes>
+            </BrowserRouter>
+         </ThemeProvider>
+      </ChakraProvider>
+   </React.StrictMode>
 );
