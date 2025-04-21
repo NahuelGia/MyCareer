@@ -54,13 +54,15 @@ export const assignDefaultHandlePositions = (
   });
 };
 
-export const getNodeColor = (nodeStatus: SubjectStates): string => {
-  switch (nodeStatus) {
-    case SubjectStates.COMPLETED:
-      return "#95f1a0";
-    case SubjectStates.IN_PROGRESS:
-      return "#75b8ec";
+export function getNodeColor(status: string) {
+  switch (status) {
+    case "Pendiente":
+      return "#ffee8c"; 
+    case "En curso":
+      return "#90CDF4";
+    case "Completada":
+      return "#68D391"; 
     default:
-      return "#e3e1e1";
+      return "#CBD5E0";
   }
-};
+}
