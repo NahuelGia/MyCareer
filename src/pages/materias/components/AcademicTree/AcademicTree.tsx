@@ -42,9 +42,12 @@ const AcademicTree: React.FC = () => {
          return e.target === hoveredNodeId
             ? {
                  ...e,
-                 style: { stroke: "#FF0072", strokeWidth: 2 },
+                 style: { stroke: "red", strokeWidth: 2 },
                  animated: true,
-                 zIndex: 1,
+                   markerEnd: {
+                     type: "arrow",
+                     color: "red",
+                   }
               }
             : e;
       });
