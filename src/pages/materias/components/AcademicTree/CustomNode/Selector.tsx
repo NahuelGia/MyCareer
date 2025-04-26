@@ -14,6 +14,11 @@ import {
 	RiTimeLine,
 } from "react-icons/ri";
 
+interface SelectorProps {
+	onChangeStatus: (status: string) => void;
+	currentStatus: string;
+}
+
 const ButtonSelector = () => {
 	const select = useSelectContext();
 	const items = select.selectedItems as SubjectStatesInfo[];
@@ -33,17 +38,14 @@ const ButtonSelector = () => {
 	);
 };
 
-export const Selector = ({
-	onChangeStatus,
-}: {
-	onChangeStatus: (newStatus: string) => void;
-}) => {
+export const Selector = ({ onChangeStatus, currentStatus }: SelectorProps) => {
 	return (
 		<Select.Root
 			positioning={{ sameWidth: false }}
 			collection={states}
 			size="md"
-			defaultValue={["Pendiente"]}
+			value={[currentStatus]}
+			defaultValue={[currentStatus]}
 			onValueChange={(value) => {
 				onChangeStatus(value.value[0]);
 			}}

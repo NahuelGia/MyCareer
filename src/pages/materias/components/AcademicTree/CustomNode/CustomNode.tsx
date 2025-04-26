@@ -96,7 +96,7 @@ const CustomNode = ({
 					</Flex>
 
 					<Flex align="center" justify="center" h="100%">
-						<Selector onChangeStatus={handleStatusChange} />
+						<Selector onChangeStatus={handleStatusChange} currentStatus={status} />
 					</Flex>
 				</Flex>
 			</Center>
