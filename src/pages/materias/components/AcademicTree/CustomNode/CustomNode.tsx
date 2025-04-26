@@ -21,13 +21,15 @@ const CustomNode = ({
 }) => {
 	const { updateSubjectStatus } = useSubjectsActions();
 	const { subjectsData } = useSubjects();
-	const [status, setStatus] = useState(data.status);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [pendingStatus, setPendingStatus] = useState<string>("");
 	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>([]);
 
+	const currentSubject = subjectsData?.materias.find(m => m.id === id);
+	const currentData = currentSubject?.data || data;
+
 	const handleStatusChange = async (newStatus: string) => {
-		const prerequisites = data.prerequisites || [];
+		const prerequisites = currentData.prerequisites || [];
 		const incompletePrerequisites = prerequisites.filter((prereq: string) => {
 			const prerequisiteSubject = subjectsData?.materias.find((m) => m.data.label === prereq);
 			return !prerequisiteSubject || prerequisiteSubject.data.status !== "Completada";
@@ -40,12 +42,10 @@ const CustomNode = ({
 			return;
 		}
 
-		setStatus(newStatus);
 		await updateSubjectStatus(id, newStatus);
 	};
 
 	const handleConfirm = async () => {
-		setStatus(pendingStatus);
 		await updateSubjectStatus(id, pendingStatus);
 		setIsDialogOpen(false);
 	};
@@ -54,10 +54,10 @@ const CustomNode = ({
 		setIsDialogOpen(e.open);
 	};
 
-	const degree = data.degreeModule;
+	const degree = currentData.degreeModule;
 	return (
 		<Box
-			bg={getNodeColor(status)}
+			bg={currentData.available ? getNodeColor(currentData.status) : "gray.300"}
 			borderWidth={degree == DegreeModule.COMPLEMENTARIO ? "1.5px" : "1px"}
 			borderColor={degree == DegreeModule.COMPLEMENTARIO ?  "red.400" : "gray.800"}
 			borderStyle={degree == DegreeModule.COMPLEMENTARIO ? "dashed" : "solid"}
@@ -91,13 +91,15 @@ const CustomNode = ({
 							wordBreak="break-word"
 							textAlign="center"
 						>
-							{data.label}
+							{currentData.label}
 						</Text>
 					</Flex>
 
-					<Flex align="center" justify="center" h="100%">
-						<Selector onChangeStatus={handleStatusChange} currentStatus={status} />
-					</Flex>
+					{currentData.available && (
+						<Flex align="center" justify="center" h="100%">
+							<Selector onChangeStatus={handleStatusChange} currentStatus={currentData.status} />
+						</Flex>
+					)}
 				</Flex>
 			</Center>
 

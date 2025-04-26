@@ -7,6 +7,7 @@ export interface SubjectData {
     credits: number;
     prerequisites: string[];
     degreeModule: string;
+    available: boolean;
     [key: string]: any;
 }
 
