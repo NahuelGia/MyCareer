@@ -34,15 +34,17 @@ const ButtonSelector = () => {
 
 export const Selector = ({
 	onChangeStatus,
+	status,
 }: {
 	onChangeStatus: (newStatus: string) => void;
+	status: string;
 }) => {
 	return (
 		<Select.Root
 			positioning={{sameWidth: false}}
 			collection={states}
 			size="md"
-			defaultValue={["Pendiente"]}
+			value={[status]}
 			onValueChange={(value) => {
 				onChangeStatus(value.value[0]);
 			}}
@@ -53,7 +55,14 @@ export const Selector = ({
 			</Select.Control>
 			<Portal>
 				<Select.Positioner>
-					<Select.Content minW="32" bg="white" color="#09090b" shadow={"sm"}>
+					<Select.Content
+						minW="32"
+						bg="white"
+						color="#09090b"
+						shadow={"sm"}
+						onClick={(e) => e.stopPropagation()}
+						className=".selector-wrapper"
+					>
 						{states.items.map((state) => (
 							<Select.Item
 								key={state.value}
