@@ -5,6 +5,8 @@ import { getNodeColor } from "../../../helper/TreeChatHelper";
 import { Selector } from "./Selector";
 import { DegreeModule } from "../../../../../types/enums/degreeModule";
 import { useSubjectsActions } from "../../../../../hooks/useSubjectsActions";
+import { useSubjects } from "../../../../../context/SubjectsContext";
+import { PrerequisitesDialog } from "./PrerequisitesDialog";
 
 const CustomNode = ({
 	id,
@@ -18,11 +20,38 @@ const CustomNode = ({
 	targetPosition?: Position;
 }) => {
 	const { updateSubjectStatus } = useSubjectsActions();
+	const { subjectsData } = useSubjects();
 	const [status, setStatus] = useState(data.status);
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [pendingStatus, setPendingStatus] = useState<string>("");
+	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>([]);
 
 	const handleStatusChange = async (newStatus: string) => {
+		const prerequisites = data.prerequisites || [];
+		const incompletePrerequisites = prerequisites.filter((prereq: string) => {
+			const prerequisiteSubject = subjectsData?.materias.find((m) => m.data.label === prereq);
+			return !prerequisiteSubject || prerequisiteSubject.data.status !== "Completada";
+		});
+
+		if (incompletePrerequisites.length > 0) {
+			setPendingStatus(newStatus);
+			setPendingPrerequisites(incompletePrerequisites);
+			setIsDialogOpen(true);
+			return;
+		}
+
 		setStatus(newStatus);
 		await updateSubjectStatus(id, newStatus);
+	};
+
+	const handleConfirm = async () => {
+		setStatus(pendingStatus);
+		await updateSubjectStatus(id, pendingStatus);
+		setIsDialogOpen(false);
+	};
+
+	const handleOpenChange = (e: { open: boolean }) => {
+		setIsDialogOpen(e.open);
 	};
 
 	const degree = data.degreeModule;
@@ -73,6 +102,13 @@ const CustomNode = ({
 			</Center>
 
 			{sourcePosition && <Handle type="source" position={sourcePosition} />}
+
+			<PrerequisitesDialog
+				isOpen={isDialogOpen}
+				onOpenChange={handleOpenChange}
+				pendingPrerequisites={pendingPrerequisites}
+				onConfirm={handleConfirm}
+			/>
 		</Box>
 	);
 };
