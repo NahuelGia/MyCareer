@@ -22,6 +22,8 @@ interface ModalMateriaProps {
 	setPeriodo: (value: string) => void;
 	onClose: () => void;
 	setStatus: (newStatus: string) => void;
+	comentarios: string;
+	setComentarios: (value: string) => void;
 }
 
 export default function ModalMateria({
@@ -34,6 +36,8 @@ export default function ModalMateria({
 	setPeriodo,
 	onClose,
 	setStatus,
+	comentarios,
+	setComentarios,
 }: ModalMateriaProps) {
 	if (!isOpen) return null;
 
@@ -99,6 +103,8 @@ export default function ModalMateria({
 									setNota={setNota}
 									periodo={periodo}
 									setPeriodo={setPeriodo}
+									comentarios={comentarios}
+									setComentarios={setComentarios}
 								/>
 							</Box>
 						</Box>

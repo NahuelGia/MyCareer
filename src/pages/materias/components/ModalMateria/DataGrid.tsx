@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import {Selector} from "../AcademicTree/CustomNode/Selector";
 import {ExpandableText} from "./ExpandableText";
+import {getNodeColor} from "../../helper/TreeChatHelper";
 
 interface MateriaData {
 	label: string;
@@ -28,6 +29,8 @@ export default function DataGrid({
 	setNota,
 	periodo,
 	setPeriodo,
+	comentarios,
+	setComentarios,
 }: {
 	status: string;
 	setStatus: (newStatus: string) => void;
@@ -36,12 +39,14 @@ export default function DataGrid({
 	setNota: (value: string) => void;
 	periodo: string;
 	setPeriodo: (value: string) => void;
+	comentarios: string;
+	setComentarios: (value: string) => void;
 }) {
 	const [touched, setTouched] = useState(false);
 	const isInvalid = touched && !/^[12]-\d{4}$/.test(periodo);
 
 	return (
-		<Flex gap={4} align={"start"} justify="center">
+		<Flex gap={4} align={"start"} justify="center" direction="column">
 			<Grid
 				templateColumns="150px 1fr 150px 1fr"
 				rowGap={4}
@@ -114,12 +119,29 @@ export default function DataGrid({
 						{data.degreeModule ?? "No disponible"}
 					</Text>
 				</Value>
-
-				<Label>Comentarios:</Label>
-				<Value>
-					<Textarea name="notes" size={"xs"} />
-				</Value>
 			</Grid>
+			<Box w="100%">
+				<Text mb={3} mt={4} fontWeight="medium">
+					{"Comentarios:"}
+				</Text>
+				<Textarea
+					placeholder="Escribe aquí tus comentarios..."
+					size="md"
+					resize="none"
+					minW={"100%"}
+					minH="120px"
+					p={3}
+					borderRadius="md"
+					borderColor="gray.300"
+					_focus={{
+						borderColor: "blue.400",
+						boxShadow: "0 0 0 1px #63b3ed",
+					}}
+					bg={getNodeColor(status)}
+					value={comentarios}
+					onChange={(e) => setComentarios(e.target.value)}
+				/>
+			</Box>
 		</Flex>
 	);
 }

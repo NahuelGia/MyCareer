@@ -18,6 +18,7 @@ const CustomNode = ({
 	const [status, setStatus] = useState(data.status);
 	const [nota, setNota] = useState("");
 	const [periodo, setPeriodo] = useState("");
+	const [comentarios, setComentarios] = useState("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -99,6 +100,8 @@ const CustomNode = ({
 					setNota={setNota}
 					periodo={periodo}
 					setPeriodo={setPeriodo}
+					comentarios={comentarios}
+					setComentarios={setComentarios}
 				/>
 			</Box>
 		</>
