@@ -9,7 +9,6 @@ import {
 import {
 	RiArrowDownSLine,
 	RiCheckLine,
-	RiForbidLine,
 	RiLoader4Line,
 	RiTimeLine,
 } from "react-icons/ri";
@@ -27,9 +26,9 @@ const ButtonSelector = () => {
 			variant="ghost"
 			color={"black"}
 			size="2xs"
-			_hover={{ bg: "#EEEE" }}
-			_active={{ bg: "#EEEE" }}
-			_expanded={{ bg: "#EEEE" }}
+			_hover={{bg: "#EEEE"}}
+			_active={{bg: "#EEEE"}}
+			_expanded={{bg: "#EEEE"}}
 			height={"9/12"}
 			{...select.getTriggerProps()}
 		>
@@ -38,10 +37,12 @@ const ButtonSelector = () => {
 	);
 };
 
+
 export const Selector = ({ onChangeStatus, currentStatus }: SelectorProps) => {
-	return (
+
+return (
 		<Select.Root
-			positioning={{ sameWidth: false }}
+			positioning={{sameWidth: false}}
 			collection={states}
 			size="md"
 			value={[currentStatus]}
@@ -56,17 +57,24 @@ export const Selector = ({ onChangeStatus, currentStatus }: SelectorProps) => {
 			</Select.Control>
 			<Portal>
 				<Select.Positioner>
-					<Select.Content minW="32" bg="#EEEE" color="#09090b" shadow={"sm"}>
+					<Select.Content
+						minW="32"
+						bg="white"
+						color="#09090b"
+						shadow={"sm"}
+						onClick={(e) => e.stopPropagation()}
+						className=".selector-wrapper"
+					>
 						{states.items.map((state) => (
 							<Select.Item
 								key={state.value}
 								item={state}
 								_selected={{
-									bg: "#FFFF",
+									bg: "#EEEE",
 									color: "#09090b",
 									fontWeight: "bold",
 								}}
-								_hover={{ bg: "#FFFE", cursor: "pointer" }}
+								_hover={{bg: "#EEEE", cursor: "pointer"}}
 							>
 								<HStack>
 									{state.icon}
@@ -83,9 +91,9 @@ export const Selector = ({ onChangeStatus, currentStatus }: SelectorProps) => {
 
 const states = createListCollection({
 	items: [
-		{ label: "Completada", value: "Completada", icon: <RiCheckLine /> },
-		{ label: "Pendiente", value: "Pendiente", icon: <RiTimeLine /> },
-		{ label: "En curso", value: "En curso", icon: <RiLoader4Line /> },
+		{label: "Completada", value: "Completada", icon: <RiCheckLine />},
+		{label: "Pendiente", value: "Pendiente", icon: <RiTimeLine />},
+		{label: "En curso", value: "En curso", icon: <RiLoader4Line />},
 	],
 });
 
