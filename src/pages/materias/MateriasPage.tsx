@@ -1,5 +1,6 @@
 import { Box, Heading, Text, VStack } from '@chakra-ui/react';
 import TreeChart from './components/AcademicTree/AcademicTree'; 	
+import { Toaster } from "@components/ui/toaster"
 
 export const MateriasPage = () => {
   return (
@@ -17,6 +18,7 @@ export const MateriasPage = () => {
       <VStack align="start" mt={4}>
         <Text fontSize="md">Progress bar and stats button :P</Text>
       </VStack>
+      <Toaster />
     </Box>
   );
 };
