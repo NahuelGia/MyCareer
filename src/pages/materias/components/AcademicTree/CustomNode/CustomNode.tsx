@@ -1,14 +1,13 @@
-import { memo, useState } from "react";
-import { Handle, Position } from "@xyflow/react";
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
-import { getNodeColor } from "../../../helper/TreeChatHelper";
-import { Selector } from "./Selector";
-import { DegreeModule } from "../../../../../types/enums/degreeModule";
-import { useSubjectsActions } from "../../../../../hooks/useSubjectsActions";
-import { useSubjects } from "../../../../../context/SubjectsContext";
-import { PrerequisitesDialog } from "./PrerequisitesDialog";
-import ModalMateria from "../ModalMateria";
-
+import {memo, useState} from "react";
+import {Handle, Position} from "@xyflow/react";
+import {Box, Center, Flex, Text} from "@chakra-ui/react";
+import {getNodeColor} from "../../../helper/TreeChatHelper";
+import {Selector} from "./Selector";
+import {DegreeModule} from "../../../../../types/enums/degreeModule";
+import {useSubjectsActions} from "../../../../../hooks/useSubjectsActions";
+import {useSubjects} from "../../../../../context/SubjectsContext";
+import {PrerequisitesDialog} from "./PrerequisitesDialog";
+import ModalMateria from "../../ModalMateria/ModalMateria";
 
 const CustomNode = ({
 	id,
@@ -21,19 +20,23 @@ const CustomNode = ({
 	sourcePosition?: Position;
 	targetPosition?: Position;
 }) => {
-
-	const { updateSubjectStatus } = useSubjectsActions();
-	const { subjectsData } = useSubjects();
+	const {updateSubjectStatus} = useSubjectsActions();
+	const {subjectsData} = useSubjects();
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [pendingStatus, setPendingStatus] = useState<string>("");
-	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>([]);
-  const [status, setStatus] = useState(data.status);
+	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>(
+		[]
+	);
+	const [status, setStatus] = useState(data.status);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [nota, setNota] = useState(data.nota);
+	const [periodo, setPeriodo] = useState(data.periodo);
+	const [comentarios, setComentarios] = useState(data.comentarios);
 
-	const currentSubject = subjectsData?.materias.find(m => m.id === id);
+	const currentSubject = subjectsData?.materias.find((m) => m.id === id);
 	const currentData = currentSubject?.data || data;
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+	const handleClick = (e: React.MouseEvent<HTMLElement>) => {
 		if ((e.target as HTMLElement).closest(".selector-wrapper")) return;
 		setIsModalOpen(true);
 	};
@@ -41,8 +44,12 @@ const CustomNode = ({
 	const handleStatusChange = async (newStatus: string) => {
 		const prerequisites = currentData.prerequisites || [];
 		const incompletePrerequisites = prerequisites.filter((prereq: string) => {
-			const prerequisiteSubject = subjectsData?.materias.find((m) => m.data.label === prereq);
-			return !prerequisiteSubject || prerequisiteSubject.data.status !== "Completada";
+			const prerequisiteSubject = subjectsData?.materias.find(
+				(m) => m.data.label === prereq
+			);
+			return (
+				!prerequisiteSubject || prerequisiteSubject.data.status !== "Completada"
+			);
 		});
 
 		if (incompletePrerequisites.length > 0) {
@@ -60,16 +67,17 @@ const CustomNode = ({
 		setIsDialogOpen(false);
 	};
 
-	const handleOpenChange = (e: { open: boolean }) => {
+	const handleOpenChange = (e: {open: boolean}) => {
 		setIsDialogOpen(e.open);
 	};
 
 	const degree = currentData.degreeModule;
 	return (
-
 		<>
 			<Box
-				bg={currentData.available ? getNodeColor(currentData.status) : "gray.300"}
+				bg={
+					currentData.available ? getNodeColor(currentData.status) : "gray.300"
+				}
 				borderWidth={degree == DegreeModule.COMPLEMENTARIO ? "1.5px" : "1px"}
 				borderColor={
 					degree == DegreeModule.COMPLEMENTARIO ? "red.400" : "gray.800"
@@ -116,19 +124,21 @@ const CustomNode = ({
 							h="100%"
 							className="selector-wrapper"
 						>
-
-
-					{currentData.available && (
-						<Flex align="center" justify="center" h="100%">
-							<Selector onChangeStatus={handleStatusChange} currentStatus={currentData.status} />
+							{currentData.available && (
+								<Flex align="center" justify="center" h="100%">
+									<Selector
+										onChangeStatus={handleStatusChange}
+										currentStatus={currentData.status}
+									/>
+								</Flex>
+							)}
 						</Flex>
-					)}
-				</Flex>
-			</Center>
+					</Flex>
+				</Center>
 
-			{sourcePosition && <Handle type="source" position={sourcePosition} />}
+				{sourcePosition && <Handle type="source" position={sourcePosition} />}
 
-      <ModalMateria
+				<ModalMateria
 					isOpen={isModalOpen}
 					onClose={() => setIsModalOpen(false)}
 					data={data}
@@ -148,8 +158,7 @@ const CustomNode = ({
 				pendingPrerequisites={pendingPrerequisites}
 				onConfirm={handleConfirm}
 			/>
-		</Box>
-  </>
+		</>
 	);
 };
 
