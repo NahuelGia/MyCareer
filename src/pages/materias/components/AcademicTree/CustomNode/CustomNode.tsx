@@ -4,18 +4,26 @@ import { Box, Center, Flex, Text } from "@chakra-ui/react";
 import { getNodeColor } from "../../../helper/TreeChatHelper";
 import { Selector } from "./Selector";
 import { DegreeModule } from "../../../../../types/enums/degreeModule";
+import { useSubjectsActions } from "../../../../../hooks/useSubjectsActions";
 
 const CustomNode = ({
+	id,
 	data,
 	sourcePosition,
 	targetPosition,
 }: {
+	id: string;
 	data: any;
 	sourcePosition?: Position;
 	targetPosition?: Position;
 }) => {
-
+	const { updateSubjectStatus } = useSubjectsActions();
 	const [status, setStatus] = useState(data.status);
+
+	const handleStatusChange = async (newStatus: string) => {
+		setStatus(newStatus);
+		await updateSubjectStatus(id, newStatus);
+	};
 
 	const degree = data.degreeModule;
 	return (
@@ -59,7 +67,7 @@ const CustomNode = ({
 					</Flex>
 
 					<Flex align="center" justify="center" h="100%">
-						<Selector onChangeStatus={(newStatus) => setStatus(newStatus)} />
+						<Selector onChangeStatus={handleStatusChange} />
 					</Flex>
 				</Flex>
 			</Center>
