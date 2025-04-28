@@ -14,16 +14,21 @@ import {
    assignDefaultHandlePositions,
 } from "../../helper/TreeChatHelper";
 import "@xyflow/react/dist/style.css";
-import data from "../../utils/jsonDbs/tpi.json";
 import CustomNode from "./CustomNode/CustomNode";
 import { Box, Checkbox, Text } from "@chakra-ui/react";
 import { BasicCheckbox } from "../../../../components/Checkbox";
 import { DegreeModule } from "../../../../types/enums/degreeModule";
+import { useSubjects } from "../../../../context/SubjectsContext";
 
 const nodeTypes = { custom: CustomNode };
 
 const AcademicTree: React.FC = () => {
-   const { materias, conexiones } = data;
+   const { subjectsData, isLoading } = useSubjects();
+
+   if (isLoading) return <div>Loading...</div>;
+   if (!subjectsData) return <div>No data available</div>;
+
+   const { materias, conexiones } = subjectsData;
 
    const baseNodes = useMemo(
       () => assignDefaultHandlePositions(materias, conexiones),
