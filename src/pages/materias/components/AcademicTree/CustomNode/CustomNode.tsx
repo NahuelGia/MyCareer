@@ -5,6 +5,8 @@ import { getNodeColor } from "../../../helper/TreeChatHelper";
 import { Selector } from "./Selector";
 import { DegreeModule } from "../../../../../types/enums/degreeModule";
 import { useSubjectsActions } from "../../../../../hooks/useSubjectsActions";
+import { useSubjects } from "../../../../../context/SubjectsContext";
+import { PrerequisitesDialog } from "./PrerequisitesDialog";
 
 const CustomNode = ({
 	id,
@@ -18,17 +20,44 @@ const CustomNode = ({
 	targetPosition?: Position;
 }) => {
 	const { updateSubjectStatus } = useSubjectsActions();
-	const [status, setStatus] = useState(data.status);
+	const { subjectsData } = useSubjects();
+	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const [pendingStatus, setPendingStatus] = useState<string>("");
+	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>([]);
+
+	const currentSubject = subjectsData?.materias.find(m => m.id === id);
+	const currentData = currentSubject?.data || data;
 
 	const handleStatusChange = async (newStatus: string) => {
-		setStatus(newStatus);
+		const prerequisites = currentData.prerequisites || [];
+		const incompletePrerequisites = prerequisites.filter((prereq: string) => {
+			const prerequisiteSubject = subjectsData?.materias.find((m) => m.data.label === prereq);
+			return !prerequisiteSubject || prerequisiteSubject.data.status !== "Completada";
+		});
+
+		if (incompletePrerequisites.length > 0) {
+			setPendingStatus(newStatus);
+			setPendingPrerequisites(incompletePrerequisites);
+			setIsDialogOpen(true);
+			return;
+		}
+
 		await updateSubjectStatus(id, newStatus);
 	};
 
-	const degree = data.degreeModule;
+	const handleConfirm = async () => {
+		await updateSubjectStatus(id, pendingStatus);
+		setIsDialogOpen(false);
+	};
+
+	const handleOpenChange = (e: { open: boolean }) => {
+		setIsDialogOpen(e.open);
+	};
+
+	const degree = currentData.degreeModule;
 	return (
 		<Box
-			bg={getNodeColor(status)}
+			bg={currentData.available ? getNodeColor(currentData.status) : "gray.300"}
 			borderWidth={degree == DegreeModule.COMPLEMENTARIO ? "1.5px" : "1px"}
 			borderColor={degree == DegreeModule.COMPLEMENTARIO ?  "red.400" : "gray.800"}
 			borderStyle={degree == DegreeModule.COMPLEMENTARIO ? "dashed" : "solid"}
@@ -62,17 +91,26 @@ const CustomNode = ({
 							wordBreak="break-word"
 							textAlign="center"
 						>
-							{data.label}
+							{currentData.label}
 						</Text>
 					</Flex>
 
-					<Flex align="center" justify="center" h="100%">
-						<Selector onChangeStatus={handleStatusChange} />
-					</Flex>
+					{currentData.available && (
+						<Flex align="center" justify="center" h="100%">
+							<Selector onChangeStatus={handleStatusChange} currentStatus={currentData.status} />
+						</Flex>
+					)}
 				</Flex>
 			</Center>
 
 			{sourcePosition && <Handle type="source" position={sourcePosition} />}
+
+			<PrerequisitesDialog
+				isOpen={isDialogOpen}
+				onOpenChange={handleOpenChange}
+				pendingPrerequisites={pendingPrerequisites}
+				onConfirm={handleConfirm}
+			/>
 		</Box>
 	);
 };
