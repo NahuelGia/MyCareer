@@ -137,6 +137,10 @@ export default function DataGrid({
 						borderColor: "blue.400",
 						boxShadow: "0 0 0 1px #63b3ed",
 					}}
+					_selection={{
+						backgroundColor: "blue.400",
+						color: "white",
+					}}
 					bg={getNodeColor(status)}
 					value={comentarios}
 					onChange={(e) => setComentarios(e.target.value)}
