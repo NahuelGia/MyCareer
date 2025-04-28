@@ -4,7 +4,7 @@ import {Box, Center, Flex, Text} from "@chakra-ui/react";
 import {getNodeColor} from "../../../helper/TreeChatHelper";
 import {Selector} from "./Selector";
 import {DegreeModule} from "../../../../../types/enums/degreeModule";
-import ModalMateria from "../ModalMateria";
+import ModalMateria from "../../ModalMateria/ModalMateria";
 
 const CustomNode = ({
 	data,
@@ -42,6 +42,7 @@ const CustomNode = ({
 				position="relative"
 				transition="all 0.2s ease-in-out"
 				onClick={(e) => handleClick(e)}
+				onBlur={() => setIsModalOpen(false)}
 				_hover={{
 					transform: "scale(1.05)",
 					boxShadow: "md",
