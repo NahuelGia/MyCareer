@@ -142,8 +142,8 @@ const CustomNode = ({
 					isOpen={isModalOpen}
 					onClose={() => setIsModalOpen(false)}
 					data={data}
-					status={status}
-					setStatus={setStatus}
+					status={currentData.status}
+					setStatus={handleStatusChange}
 					nota={nota}
 					setNota={setNota}
 					periodo={periodo}

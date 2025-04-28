@@ -59,7 +59,7 @@ export default function DataGrid({
 						<Text whiteSpace="nowrap">{status}</Text>
 						<Selector
 							onChangeStatus={(newStatus) => setStatus(newStatus)}
-							status={status}
+							currentStatus={status}
 						/>
 					</Flex>
 				</Value>
