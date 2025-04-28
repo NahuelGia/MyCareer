@@ -9,6 +9,7 @@ import { useSubjects } from "../../../../../context/SubjectsContext";
 import { PrerequisitesDialog } from "./PrerequisitesDialog";
 import ModalMateria from "../ModalMateria";
 
+
 const CustomNode = ({
 	id,
 	data,
@@ -90,7 +91,6 @@ const CustomNode = ({
 			>
 				{targetPosition && <Handle type="target" position={targetPosition} />}
 
-
 				<Center minH={"4rem"} minW="8rem">
 					<Flex
 						direction="row"
@@ -117,6 +117,7 @@ const CustomNode = ({
 							className="selector-wrapper"
 						>
 
+
 					{currentData.available && (
 						<Flex align="center" justify="center" h="100%">
 							<Selector onChangeStatus={handleStatusChange} currentStatus={currentData.status} />
@@ -140,7 +141,7 @@ const CustomNode = ({
 					comentarios={comentarios}
 					setComentarios={setComentarios}
 				/>
-
+			</Box>
 			<PrerequisitesDialog
 				isOpen={isDialogOpen}
 				onOpenChange={handleOpenChange}
@@ -148,6 +149,7 @@ const CustomNode = ({
 				onConfirm={handleConfirm}
 			/>
 		</Box>
+  </>
 	);
 };
 

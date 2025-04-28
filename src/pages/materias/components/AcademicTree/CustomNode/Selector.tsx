@@ -38,6 +38,7 @@ const ButtonSelector = () => {
 };
 
 
+
 export const Selector = ({ onChangeStatus, currentStatus }: SelectorProps) => {
 
 return (
@@ -47,6 +48,7 @@ return (
 			size="md"
 			value={[currentStatus]}
 			defaultValue={[currentStatus]}
+
 			onValueChange={(value) => {
 				onChangeStatus(value.value[0]);
 			}}
