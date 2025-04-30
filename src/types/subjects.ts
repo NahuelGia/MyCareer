@@ -28,6 +28,7 @@ export interface SubjectConnection {
 }
 
 export interface SubjectsData {
+    nombre: string;
     materias: Subject[];
     conexiones: SubjectConnection[];
 } 

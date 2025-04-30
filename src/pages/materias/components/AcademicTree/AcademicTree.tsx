@@ -17,8 +17,7 @@ import CustomNode from "./CustomNode/CustomNode";
 import { Box, Checkbox, Text } from "@chakra-ui/react";
 import { BasicCheckbox } from "../../../../components/Checkbox";
 import { DegreeModule } from "../../../../types/enums/degreeModule";
-import { useSubjects } from "../../../../context/SubjectsContext";
-
+import { useSubjects } from "@/context/SubjectsContext";
 
 const nodeTypes = {custom: CustomNode};
 

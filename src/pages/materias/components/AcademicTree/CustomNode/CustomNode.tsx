@@ -5,9 +5,9 @@ import {getNodeColor} from "../../../helper/TreeChatHelper";
 import {Selector} from "./Selector";
 import {DegreeModule} from "../../../../../types/enums/degreeModule";
 import {useSubjectsActions} from "../../../../../hooks/useSubjectsActions";
-import {useSubjects} from "../../../../../context/SubjectsContext";
 import {PrerequisitesDialog} from "./PrerequisitesDialog";
 import ModalMateria from "../../ModalMateria/ModalMateria";
+import { useSubjects } from "../../../../../context/SubjectsContext";
 
 const CustomNode = ({
 	id,

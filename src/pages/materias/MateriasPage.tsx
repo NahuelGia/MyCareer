@@ -1,11 +1,21 @@
 import { Box, Heading, Text, VStack } from '@chakra-ui/react';
 import TreeChart from './components/AcademicTree/AcademicTree'; 	
 import { Toaster } from "@components/ui/toaster"
+import { useInitializeSubjects } from './hooks/useInitializeSubjects';
+import { useSubjects } from '../../context/SubjectsContext';
 
 export const MateriasPage = () => {
+  useInitializeSubjects();
+
+  const { subjectsData } = useSubjects();
+
+  if (!subjectsData) {
+    return null;
+  }
+
   return (
     <Box p={4}>
-      {/* Tittle */}
+      <Heading as="h1" size="2xl" textAlign="center">{subjectsData.nombre}</Heading>
       <VStack align="start" mb={4}>
         <Heading as="h2" size="lg">Mi trayecto</Heading>
       </VStack>
