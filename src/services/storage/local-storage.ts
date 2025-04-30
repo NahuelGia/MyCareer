@@ -8,18 +8,34 @@ const isSubjectAvailable = (subject: Subject, allSubjects: Subject[]): boolean =
 
     return subject.data.prerequisites.every(prereqLabel => {
         const prerequisite = allSubjects.find(s => s.data.label === prereqLabel);
-        return prerequisite && prerequisite.data.status === "Completada";
+        if (!prerequisite) return false;
+        
+        if (prerequisite.data.status !== "Completada") return false;
+        
+        return isSubjectAvailable(prerequisite, allSubjects);
     });
 };
 
 const updateSubjectsAvailability = (subjects: Subject[]): Subject[] => {
-    return subjects.map(subject => ({
+    const resetSubjects = subjects.map(subject => ({
         ...subject,
         data: {
             ...subject.data,
-            available: isSubjectAvailable(subject, subjects)
+            available: false
         }
     }));
+
+    return resetSubjects.map(subject => {
+        const isAvailable = isSubjectAvailable(subject, resetSubjects);
+        return {
+            ...subject,
+            data: {
+                ...subject.data,
+                available: isAvailable,
+                status: !isAvailable && subject.data.status === "Completada" ? "Pendiente" : subject.data.status
+            }
+        };
+    });
 };
 
 export class SubjectsStorageService {
@@ -61,7 +77,14 @@ export class SubjectsStorageService {
     };
   }
 
-  static async updateSubjectStatus(careerId: string, subjectId: string, newStatus: string): Promise<SubjectsData | null> {
+  static async updateSubjectStatus(
+    careerId: string, 
+    subjectId: string, 
+    newStatus: string,
+    nota?: string,
+    periodo?: string,
+    comentarios?: string
+  ): Promise<SubjectsData | null> {
     const STORAGE_KEY = `${careerId}_data`;
     const data = await this.getData(careerId);
     if (!data) {
@@ -75,7 +98,16 @@ export class SubjectsStorageService {
 
     const updatedSubjects = data.materias.map((subject: Subject) => 
       subject.id === subjectId 
-        ? { ...subject, data: { ...subject.data, status: newStatus } }
+        ? { 
+            ...subject, 
+            data: { 
+              ...subject.data, 
+              status: newStatus,
+              nota: nota !== undefined ? nota : subject.data.nota,
+              periodo: periodo !== undefined ? periodo : subject.data.periodo,
+              comentarios: comentarios !== undefined ? comentarios : subject.data.comentarios
+            } 
+          }
         : subject
     );
     

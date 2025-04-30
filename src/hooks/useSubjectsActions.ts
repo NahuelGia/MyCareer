@@ -7,7 +7,13 @@ export function useSubjectsActions() {
   const { setSubjectsData, setError } = useSubjects();
   const { id } = useParams();
 
-  const updateSubjectStatus = async (subjectId: string, newStatus: string) => {
+  const updateSubjectStatus = async (
+    subjectId: string, 
+    newStatus: string,
+    nota?: string,
+    periodo?: string,
+    comentarios?: string
+  ) => {
     if (!id) {
       toaster.create({
         title: 'Error',
@@ -22,7 +28,14 @@ export function useSubjectsActions() {
     }
 
     try {
-      const updatedData = await SubjectsStorageService.updateSubjectStatus(id, subjectId, newStatus);
+      const updatedData = await SubjectsStorageService.updateSubjectStatus(
+        id, 
+        subjectId, 
+        newStatus,
+        nota,
+        periodo,
+        comentarios
+      );
       
       if (!updatedData) {
         // If update failed, try to reload the data
