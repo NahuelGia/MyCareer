@@ -212,7 +212,7 @@
             "status": "Pendiente",
             "weeklyHours": 6,
             "credits": 12,
-            "prerequisites": ["Base de Datos", "Programación con Objetos II"],
+            "prerequisites": ["Bases de Datos", "Programación con Objetos II"],
             "degreeModule": "Núcleo avanzado obligatorio"
          },
          "type": "custom"
