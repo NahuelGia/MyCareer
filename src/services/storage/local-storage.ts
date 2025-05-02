@@ -17,25 +17,13 @@ const isSubjectAvailable = (subject: Subject, allSubjects: Subject[]): boolean =
 };
 
 const updateSubjectsAvailability = (subjects: Subject[]): Subject[] => {
-    const resetSubjects = subjects.map(subject => ({
+    return subjects.map(subject => ({
         ...subject,
         data: {
             ...subject.data,
-            available: false
+            available: isSubjectAvailable(subject, subjects)
         }
     }));
-
-    return resetSubjects.map(subject => {
-        const isAvailable = isSubjectAvailable(subject, resetSubjects);
-        return {
-            ...subject,
-            data: {
-                ...subject.data,
-                available: isAvailable,
-                status: !isAvailable && subject.data.status === "Completada" ? "Pendiente" : subject.data.status
-            }
-        };
-    });
 };
 
 export class SubjectsStorageService {
@@ -77,50 +65,60 @@ export class SubjectsStorageService {
     };
   }
 
+  static async getAllCareersProgress(): Promise<Record<string, SubjectsData | null>> {
+    const progress: Record<string, SubjectsData | null> = {};
+    
+    for (const carrera of carreras) {
+      progress[carrera.id] = await this.getData(carrera.id);
+    }
+    
+    return progress;
+  }
+
   static async updateSubjectStatus(
-    careerId: string, 
-    subjectId: string, 
+    careerId: string,
+    subjectId: string,
     newStatus: string,
     nota?: string,
     periodo?: string,
     comentarios?: string
   ): Promise<SubjectsData | null> {
     const STORAGE_KEY = `${careerId}_data`;
-    const data = await this.getData(careerId);
+    const data = localStorage.getItem(STORAGE_KEY);
+    
     if (!data) {
-      throw new Error(`No se encontraron datos para la carrera ${careerId}`);
+      // Si no hay datos, inicializamos la carrera
+      return await this.initialize(careerId);
     }
 
-    const subject = data.materias.find(s => s.id === subjectId);
-    if (!subject) {
-      throw new Error(`No se encontró la materia con ID ${subjectId}`);
-    }
-
-    const updatedSubjects = data.materias.map((subject: Subject) => 
-      subject.id === subjectId 
-        ? { 
-            ...subject, 
-            data: { 
-              ...subject.data, 
-              status: newStatus,
-              nota: nota !== undefined ? nota : subject.data.nota,
-              periodo: periodo !== undefined ? periodo : subject.data.periodo,
-              comentarios: comentarios !== undefined ? comentarios : subject.data.comentarios
-            } 
+    const parsedData = JSON.parse(data);
+    const updatedMaterias = parsedData.materias.map((m: Subject) => {
+      if (m.id === subjectId) {
+        return {
+          ...m,
+          data: {
+            ...m.data,
+            status: newStatus,
+            nota: nota ?? m.data.nota,
+            periodo: periodo ?? m.data.periodo,
+            comentarios: comentarios ?? m.data.comentarios
           }
-        : subject
-    );
-    
+        };
+      }
+      return m;
+    });
+
     const updatedData = {
-      ...data,
-      materias: updateSubjectsAvailability(updatedSubjects)
+      ...parsedData,
+      materias: updateSubjectsAvailability(updatedMaterias)
     };
-    
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
-      return updatedData;
-    } catch (error) {
-      throw new Error('Error al guardar los cambios en el almacenamiento local');
-    }
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
+    return updatedData;
+  }
+
+  static async deleteCareerProgress(careerId: string): Promise<void> {
+    const STORAGE_KEY = `${careerId}_data`;
+    localStorage.removeItem(STORAGE_KEY);
   }
 }

@@ -1,28 +1,58 @@
-import { Box, ClientOnly, Skeleton, VStack } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import { ColorModeToggle } from "./components/color-mode-toggle";
-import { Link } from "react-router";
+import { Box, Text, VStack, Heading, Container, Center, Flex } from "@chakra-ui/react";
 import { carreras } from "./pages/materias/utils/jsonDbs";
+import { useSubjects } from "./context/SubjectsContext";
+import { CareerCard } from "./components/CareerCard";
+import { useEffect } from "react";
 
 export default function Page() {
-	return (
-		<Box textAlign="center" fontSize="xl" pt="30vh">
-			<VStack gap="8">
-				<img alt="MyCareer logo" src="/static/logo.png" width="800"/>
-				{
-					carreras.map((carrera) => (
-						<Button key={carrera.id}>
-							<Link to={`/${carrera.id}`}>{carrera.nombre}</Link>
-						</Button>
-					))
-				}
-			</VStack>
+	const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
 
-			<Box pos="absolute" top="4" right="4">
-				<ClientOnly fallback={<Skeleton w="10" h="10" rounded="md" />}>
-					<ColorModeToggle />
-				</ClientOnly>
-			</Box>
-		</Box>
+	useEffect(() => {
+		loadCareersProgress();
+	}, []);
+
+	if (isLoading) {
+		return (
+			<Center h="100vh">
+				<VStack gap="2">
+					<Heading size="7xl" color="blue.600">
+						MyCareer
+					</Heading>
+					<Text>Cargando carreras...</Text>
+				</VStack>
+			</Center>
+		);
+	}
+
+	return (
+		<Flex minH="100vh" direction="column" justify="center">
+			<Container maxW="container.lg" py={20}>
+				<Center>
+					<VStack gap={8} align="center">
+						<VStack gap={2} align="center">
+							<Heading size="7xl" color="blue.600" textAlign="center">
+								MyCareer
+							</Heading>
+							<Text fontSize="2xl" color="gray.600" textAlign="center">
+								Tu progreso académico en un solo lugar
+							</Text>
+						</VStack>
+
+						<VStack gap={4} width="full" maxW="600px" align="center">
+							{carreras.map((carrera) => {
+								const careerProgress = subjectsData.find(c => c.id === carrera.id);
+								return (
+									<CareerCard 
+										key={carrera.id} 
+										carrera={carrera} 
+										careerProgress={careerProgress} 
+									/>
+								);
+							})}
+						</VStack>
+					</VStack>
+				</Center>
+			</Container>
+		</Flex>
 	);
 }

@@ -7,6 +7,30 @@ export function useSubjectsActions() {
   const { setSubjectsData, setError } = useSubjects();
   const { id } = useParams();
 
+  const initializeCareer = async () => {
+    if (!id) return;
+
+    try {
+      const careerData = await SubjectsStorageService.getData(id);
+      if (!careerData) {
+        const initializedData = await SubjectsStorageService.initialize(id);
+        setSubjectsData([{ id, nombre: initializedData.nombre, data: initializedData }]);
+      } else {
+        setSubjectsData([{ id, nombre: careerData.nombre, data: careerData }]);
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error al inicializar la carrera';
+      setError(new Error(errorMessage));
+      toaster.create({
+        title: 'Error',
+        description: errorMessage,
+        type: 'error',
+        duration: 3000,
+        meta: { closable: true },
+      });
+    }
+  };
+
   const updateSubjectStatus = async (
     subjectId: string, 
     newStatus: string,
@@ -41,11 +65,14 @@ export function useSubjectsActions() {
         // If update failed, try to reload the data
         const reloadedData = await SubjectsStorageService.getData(id);
         if (!reloadedData) {
-          throw new Error('No se pudieron cargar los datos después de la actualización');
+          // Si no hay datos, inicializamos la carrera
+          const initializedData = await SubjectsStorageService.initialize(id);
+          setSubjectsData([{ id, nombre: initializedData.nombre, data: initializedData }]);
+        } else {
+          setSubjectsData([{ id, nombre: reloadedData.nombre, data: reloadedData }]);
         }
-        setSubjectsData(reloadedData);
       } else {
-        setSubjectsData(updatedData);
+        setSubjectsData([{ id, nombre: updatedData.nombre, data: updatedData }]);
       }
       
       toaster.create({
@@ -73,5 +100,5 @@ export function useSubjectsActions() {
     }
   };
 
-  return { updateSubjectStatus };
+  return { updateSubjectStatus, initializeCareer };
 } 
