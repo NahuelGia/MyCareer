@@ -1,7 +1,5 @@
 import { SubjectsData, Subject } from '../../types/subjects';
-import tpiData from '../../pages/materias/utils/jsonDbs/tpi.json';
-
-const STORAGE_KEY = 'tpi_data';
+import { carreras } from '../../pages/materias/utils/jsonDbs';
 
 const isSubjectAvailable = (subject: Subject, allSubjects: Subject[]): boolean => {
     if (subject.data.prerequisites.length === 0) {
@@ -10,7 +8,11 @@ const isSubjectAvailable = (subject: Subject, allSubjects: Subject[]): boolean =
 
     return subject.data.prerequisites.every(prereqLabel => {
         const prerequisite = allSubjects.find(s => s.data.label === prereqLabel);
-        return prerequisite && prerequisite.data.status === "Completada";
+        if (!prerequisite) return false;
+        
+        if (prerequisite.data.status !== "Completada") return false;
+        
+        return isSubjectAvailable(prerequisite, allSubjects);
     });
 };
 
@@ -25,16 +27,26 @@ const updateSubjectsAvailability = (subjects: Subject[]): Subject[] => {
 };
 
 export class SubjectsStorageService {
-  static async initialize(): Promise<SubjectsData> {
+  static async initialize(careerId: string): Promise<SubjectsData> {
+    const STORAGE_KEY = `${careerId}_data`;
     const storedData = localStorage.getItem(STORAGE_KEY);
+    
     if (!storedData) {
+      const carrera = carreras.find(c => c.id === careerId);
+      if (!carrera) {
+        throw new Error(`No se encontraron datos para la carrera ${careerId}`);
+      }
+
+      const careerData = await import(`../../pages/materias/utils/jsonDbs/${carrera.file}`);
       const updatedData = {
-        ...tpiData,
-        materias: updateSubjectsAvailability(tpiData.materias as Subject[])
+        ...careerData.default,
+        nombre: carrera.nombre,
+        materias: updateSubjectsAvailability(careerData.default.materias as Subject[])
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
       return updatedData;
     }
+
     const parsedData = JSON.parse(storedData);
     return {
       ...parsedData,
@@ -42,7 +54,8 @@ export class SubjectsStorageService {
     };
   }
 
-  static async getData(): Promise<SubjectsData | null> {
+  static async getData(careerId: string): Promise<SubjectsData | null> {
+    const STORAGE_KEY = `${careerId}_data`;
     const data = localStorage.getItem(STORAGE_KEY);
     if (!data) return null;
     const parsedData = JSON.parse(data);
@@ -52,22 +65,60 @@ export class SubjectsStorageService {
     };
   }
 
-  static async updateSubjectStatus(subjectId: string, newStatus: string): Promise<SubjectsData | null> {
-    const data = await this.getData();
-    if (!data) return null;
+  static async getAllCareersProgress(): Promise<Record<string, SubjectsData | null>> {
+    const progress: Record<string, SubjectsData | null> = {};
+    
+    for (const carrera of carreras) {
+      progress[carrera.id] = await this.getData(carrera.id);
+    }
+    
+    return progress;
+  }
 
-    const updatedSubjects = data.materias.map((subject: Subject) => 
-      subject.id === subjectId 
-        ? { ...subject, data: { ...subject.data, status: newStatus } }
-        : subject
-    );
+  static async updateSubjectStatus(
+    careerId: string,
+    subjectId: string,
+    newStatus: string,
+    nota?: string,
+    periodo?: string,
+    comentarios?: string
+  ): Promise<SubjectsData | null> {
+    const STORAGE_KEY = `${careerId}_data`;
+    const data = localStorage.getItem(STORAGE_KEY);
     
+    if (!data) {
+      // Si no hay datos, inicializamos la carrera
+      return await this.initialize(careerId);
+    }
+
+    const parsedData = JSON.parse(data);
+    const updatedMaterias = parsedData.materias.map((m: Subject) => {
+      if (m.id === subjectId) {
+        return {
+          ...m,
+          data: {
+            ...m.data,
+            status: newStatus,
+            nota: nota ?? m.data.nota,
+            periodo: periodo ?? m.data.periodo,
+            comentarios: comentarios ?? m.data.comentarios
+          }
+        };
+      }
+      return m;
+    });
+
     const updatedData = {
-      ...data,
-      materias: updateSubjectsAvailability(updatedSubjects)
+      ...parsedData,
+      materias: updateSubjectsAvailability(updatedMaterias)
     };
-    
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
     return updatedData;
+  }
+
+  static async deleteCareerProgress(careerId: string): Promise<void> {
+    const STORAGE_KEY = `${careerId}_data`;
+    localStorage.removeItem(STORAGE_KEY);
   }
 }

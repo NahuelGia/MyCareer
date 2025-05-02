@@ -5,9 +5,9 @@ import {getNodeColor} from "../../../helper/TreeChatHelper";
 import {Selector} from "./Selector";
 import {DegreeModule} from "../../../../../types/enums/degreeModule";
 import {useSubjectsActions} from "../../../../../hooks/useSubjectsActions";
-import {useSubjects} from "../../../../../context/SubjectsContext";
-import {PrerequisitesDialog} from "./PrerequisitesDialog";
 import ModalMateria from "../../ModalMateria/ModalMateria";
+import { useSubjects } from "../../../../../context/SubjectsContext";
+import { useParams } from "react-router";
 
 const CustomNode = ({
 	id,
@@ -20,20 +20,13 @@ const CustomNode = ({
 	sourcePosition?: Position;
 	targetPosition?: Position;
 }) => {
+	const { id: careerId } = useParams();
 	const {updateSubjectStatus} = useSubjectsActions();
 	const {subjectsData} = useSubjects();
-	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const [pendingStatus, setPendingStatus] = useState<string>("");
-	const [pendingPrerequisites, setPendingPrerequisites] = useState<string[]>(
-		[]
-	);
-	const [status, setStatus] = useState(data.status);
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [nota, setNota] = useState(data.nota);
-	const [periodo, setPeriodo] = useState(data.periodo);
-	const [comentarios, setComentarios] = useState(data.comentarios);
 
-	const currentSubject = subjectsData?.materias.find((m) => m.id === id);
+	const careerData = subjectsData?.find(c => c.id === careerId);
+	const currentSubject = careerData?.data.materias.find((m) => m.id === id);
 	const currentData = currentSubject?.data || data;
 
 	const handleClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -42,33 +35,7 @@ const CustomNode = ({
 	};
 
 	const handleStatusChange = async (newStatus: string) => {
-		const prerequisites = currentData.prerequisites || [];
-		const incompletePrerequisites = prerequisites.filter((prereq: string) => {
-			const prerequisiteSubject = subjectsData?.materias.find(
-				(m) => m.data.label === prereq
-			);
-			return (
-				!prerequisiteSubject || prerequisiteSubject.data.status !== "Completada"
-			);
-		});
-
-		if (incompletePrerequisites.length > 0) {
-			setPendingStatus(newStatus);
-			setPendingPrerequisites(incompletePrerequisites);
-			setIsDialogOpen(true);
-			return;
-		}
-
 		await updateSubjectStatus(id, newStatus);
-	};
-
-	const handleConfirm = async () => {
-		await updateSubjectStatus(id, pendingStatus);
-		setIsDialogOpen(false);
-	};
-
-	const handleOpenChange = (e: {open: boolean}) => {
-		setIsDialogOpen(e.open);
 	};
 
 	const degree = currentData.degreeModule;
@@ -114,7 +81,7 @@ const CustomNode = ({
 								wordBreak="break-word"
 								textAlign="center"
 							>
-								{data.label}
+								{currentData.label}
 							</Text>
 						</Flex>
 
@@ -137,26 +104,19 @@ const CustomNode = ({
 				</Center>
 
 				{sourcePosition && <Handle type="source" position={sourcePosition} />}
-
-				<ModalMateria
-					isOpen={isModalOpen}
-					onClose={() => setIsModalOpen(false)}
-					data={data}
-					status={currentData.status}
-					setStatus={handleStatusChange}
-					nota={nota}
-					setNota={setNota}
-					periodo={periodo}
-					setPeriodo={setPeriodo}
-					comentarios={comentarios}
-					setComentarios={setComentarios}
-				/>
 			</Box>
-			<PrerequisitesDialog
-				isOpen={isDialogOpen}
-				onOpenChange={handleOpenChange}
-				pendingPrerequisites={pendingPrerequisites}
-				onConfirm={handleConfirm}
+			<ModalMateria
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				data={currentData}
+				status={currentData.status}
+				setStatus={handleStatusChange}
+				nota={currentData.nota || ""}
+				setNota={(value) => updateSubjectStatus(id, currentData.status, value)}
+				periodo={currentData.periodo || ""}
+				setPeriodo={(value) => updateSubjectStatus(id, currentData.status, undefined, value)}
+				comentarios={currentData.comentarios || ""}
+				setComentarios={(value) => updateSubjectStatus(id, currentData.status, undefined, undefined, value)}
 			/>
 		</>
 	);

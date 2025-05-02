@@ -13,9 +13,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
          <SubjectsProvider>
             <BrowserRouter>
                <Routes>
-                  <Route path="/" element={<MateriasPage />} />
-                  {/* <Route path="/" element={<App />} /> */}
-                  {/* Cuando tengamos la pantalla de inicio Materias debe estar en /materias */}
+                  <Route path="/:id" element={<MateriasPage />} />
+                  <Route path="/" element={<App />} />
                </Routes>
             </BrowserRouter>
          </SubjectsProvider>

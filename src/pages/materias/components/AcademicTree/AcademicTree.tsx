@@ -13,24 +13,26 @@ import {
 import {assignDefaultHandlePositions} from "../../helper/TreeChatHelper";
 import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode/CustomNode";
+import { useParams } from "react-router";
 
 import { Box, Checkbox, Text } from "@chakra-ui/react";
 import { BasicCheckbox } from "../../../../components/Checkbox";
 import { DegreeModule } from "../../../../types/enums/degreeModule";
-import { useSubjects } from "../../../../context/SubjectsContext";
-
+import { useSubjects } from "@/context/SubjectsContext";
 
 const nodeTypes = {custom: CustomNode};
 
 const AcademicTree: React.FC = () => {
+	const { id } = useParams();
+	const { subjectsData, isLoading } = useSubjects();
 
-   const { subjectsData, isLoading } = useSubjects();
+	if (isLoading) return <div>Loading...</div>;
+	if (!subjectsData) return <div>No data available</div>;
 
-   if (isLoading) return <div>Loading...</div>;
-   if (!subjectsData) return <div>No data available</div>;
+	const careerData = subjectsData.find(c => c.id === id);
+	if (!careerData) return <div>No data available for this career</div>;
 
-   const { materias, conexiones } = subjectsData;
-
+	const { materias, conexiones } = careerData.data;
 
 	const baseNodes = useMemo(
 		() => assignDefaultHandlePositions(materias, conexiones),
@@ -42,7 +44,6 @@ const AcademicTree: React.FC = () => {
 	const [edges, setEdges, onEdgesChange] = useEdgesState(baseEdges);
 	const [showComplementarias, setShowComplementarias] = useState(false);
 	const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
-
 
 	const edgesToRender = useMemo<Edge[]>(() => {
 		if (!hoveredNodeId) return edges;
