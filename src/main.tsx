@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Router, Routes } from "react-router";
 import { MateriasPage } from "./pages/materias/MateriasPage";
 import { SubjectsProvider } from "./context/SubjectsContext";
 import "./app.css";
+import { CreatorPage } from "./pages/creator/CreatorPage";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
    <React.StrictMode>
@@ -13,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
          <SubjectsProvider>
             <BrowserRouter>
                <Routes>
+                  <Route path="/creator" element={<CreatorPage />} />
                   <Route path="/:id" element={<MateriasPage />} />
                   <Route path="/" element={<App />} />
                </Routes>
