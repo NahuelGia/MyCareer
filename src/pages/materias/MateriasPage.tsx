@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { SubjectsStorageService } from '../../services/storage/local-storage';
 import { RiSettings3Line } from 'react-icons/ri';
 import { SettingsModal } from './components/SettingsModal/SettingsModal';
+import { AcademicProgressBar } from './components/AcademicProgressBar';
 
 export const MateriasPage = () => {
   const { id } = useParams();
@@ -44,6 +45,10 @@ export const MateriasPage = () => {
     return null;
   }
 
+  const materias = careerData.data.materias || [];
+  const total = materias.length;
+  const approved = materias.filter(m => m.data.status === 'Completada').length;
+
   return (
     <Box p={4} position="relative" minH="100vh">
       <Heading as="h1" size="2xl" textAlign="center">{careerData.nombre}</Heading>
@@ -58,9 +63,9 @@ export const MateriasPage = () => {
 
       {/* Stats*/}
       <VStack align="start" mt={4}>
-        <Text fontSize="md">Progress bar and stats button :P</Text>
+        <AcademicProgressBar approved={approved} total={total} />
       </VStack>
-      <Toaster />
+      <Toaster/>
 
       <Button
         position="fixed"
