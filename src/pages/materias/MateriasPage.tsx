@@ -1,4 +1,4 @@
-import { Box, Heading, Text, VStack, Button } from '@chakra-ui/react';
+import { Box, Heading, Text, VStack, Button, HStack } from '@chakra-ui/react';
 import TreeChart from './components/AcademicTree/AcademicTree'; 	
 import { Toaster } from "@components/ui/toaster"
 import { useSubjects } from '../../context/SubjectsContext';
@@ -6,9 +6,10 @@ import { useParams, useNavigate } from 'react-router';
 import { useSubjectsActions } from '../../hooks/useSubjectsActions';
 import { useEffect, useState } from 'react';
 import { SubjectsStorageService } from '../../services/storage/local-storage';
-import { RiSettings3Line } from 'react-icons/ri';
+import { RiSettings3Line, RiBarChartLine } from 'react-icons/ri';
 import { SettingsModal } from './components/SettingsModal/SettingsModal';
 import { AcademicProgressBar } from './components/AcademicProgressBar';
+import { StatisticsModal } from './components/StatisticsModal/StatisticsModal';
 
 export const MateriasPage = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ export const MateriasPage = () => {
   const { subjectsData, isLoading } = useSubjects();
   const { initializeCareer } = useSubjectsActions();
   const [showSettings, setShowSettings] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
 
   useEffect(() => {
     initializeCareer();
@@ -48,6 +50,35 @@ export const MateriasPage = () => {
   const materias = careerData.data.materias || [];
   const total = materias.length;
   const approved = materias.filter(m => m.data.status === 'Completada').length;
+  const remaining = total - approved;
+
+  const totalCredits = materias.reduce((sum, subject) => sum + subject.data.credits, 0);
+
+  const passedSubjects = materias.filter(m => m.data.status === 'Completada');
+
+  const promedio = passedSubjects.length > 0 
+    ? passedSubjects.reduce((sum, subject) => {
+        const grade = subject.data.nota ? parseFloat(subject.data.nota) : 0;
+        return sum + grade;
+      }, 0) / passedSubjects.length
+    : 0;
+
+  const calculateRemainingTerms = () => {
+    const periods = new Set();
+    passedSubjects.forEach(subject => {
+      if (subject.data.periodo) {
+        periods.add(subject.data.periodo);
+      }
+    });
+    
+    const subjectsPerSemester = periods.size > 0 
+      ? passedSubjects.length / periods.size 
+      : 5;
+    
+    return Math.ceil(remaining / subjectsPerSemester);
+  };
+
+  const estimatedRemainingTerms = calculateRemainingTerms();
 
   return (
     <Box p={4} position="relative" minH="100vh">
@@ -67,26 +98,55 @@ export const MateriasPage = () => {
       </VStack>
       <Toaster/>
 
-      <Button
+      {/* Bottom buttons */}
+      <HStack 
         position="fixed"
         right="20px"
         bottom="20px"
-        onClick={() => setShowSettings(true)}
-        borderRadius="full"
-        p={0}
-        w="40px"
-        h="40px"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
+        gap={4}
       >
-        <RiSettings3Line />
-      </Button>
+        <Button
+          onClick={() => setShowStatistics(true)}
+          borderRadius="full"
+          p={0}
+          w="40px"
+          h="40px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          colorScheme="blue"
+        >
+          <RiBarChartLine />
+        </Button>
+        <Button
+          onClick={() => setShowSettings(true)}
+          borderRadius="full"
+          p={0}
+          w="40px"
+          h="40px"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <RiSettings3Line />
+        </Button>
+      </HStack>
 
       <SettingsModal
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
         onDeleteProgress={handleDeleteProgress}
+      />
+
+      <StatisticsModal
+        isOpen={showStatistics}
+        onClose={() => setShowStatistics(false)}
+        subjects={materias}
+        totalCredits={totalCredits}
+        approved={approved}
+        remaining={remaining}
+        promedio={promedio}
+        estimatedRemainingTerms={estimatedRemainingTerms}
       />
     </Box>
   );
