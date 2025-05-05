@@ -10,6 +10,7 @@ import { RiSettings3Line, RiBarChartLine } from 'react-icons/ri';
 import { SettingsModal } from './components/SettingsModal/SettingsModal';
 import { AcademicProgressBar } from './components/AcademicProgressBar';
 import { StatisticsModal } from './components/StatisticsModal/StatisticsModal';
+import { Navbar } from '../../components/Navbar';
 
 export const MateriasPage = () => {
   const { id } = useParams();
@@ -81,73 +82,77 @@ export const MateriasPage = () => {
   const estimatedRemainingTerms = calculateRemainingTerms();
 
   return (
-    <Box p={4} position="relative" minH="100vh">
-      <Heading as="h1" size="2xl" textAlign="center">{careerData.nombre}</Heading>
+    <Box position="relative" minH="100vh" display="flex" flexDirection="column">
+      <Navbar />
+      
+      <Box p={4} flex="1">
+        <Heading as="h1" size="2xl" textAlign="center" mt={4}>{careerData.nombre}</Heading>
 
-      <VStack align="start" mb={4}>
-        <Heading as="h2" size="lg">Mi trayecto</Heading>
-      </VStack>
+        <VStack align="start" mb={4}>
+          <Heading as="h2" size="lg">Mi trayecto</Heading>
+        </VStack>
 
-      <Box bg="gray.100" p={4} height="600px">
-        <TreeChart />
+        <Box bg="gray.100" p={4} height="600px">
+          <TreeChart />
+        </Box>
+
+        {/* Stats*/}
+        <VStack align="start" mt={4}>
+          <AcademicProgressBar approved={approved} total={total} />
+        </VStack>
+        <Toaster/>
+
+        {/* Bottom buttons */}
+        <HStack 
+          position="fixed"
+          right="20px"
+          bottom="20px"
+          gap={4}
+        >
+          <Button
+            onClick={() => setShowStatistics(true)}
+            borderRadius="full"
+            p={0}
+            w="40px"
+            h="40px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            colorScheme="blue"
+          >
+            <RiBarChartLine />
+          </Button>
+          <Button
+            onClick={() => setShowSettings(true)}
+            borderRadius="full"
+            p={0}
+            w="40px"
+            h="40px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <RiSettings3Line />
+          </Button>
+        </HStack>
+
+        <SettingsModal
+          isOpen={showSettings}
+          onClose={() => setShowSettings(false)}
+          onDeleteProgress={handleDeleteProgress}
+        />
+
+        <StatisticsModal
+          isOpen={showStatistics}
+          onClose={() => setShowStatistics(false)}
+          subjects={materias}
+          totalCredits={totalCredits}
+          approved={approved}
+          remaining={remaining}
+          promedio={promedio}
+          estimatedRemainingTerms={estimatedRemainingTerms}
+        />
       </Box>
-
-      {/* Stats*/}
-      <VStack align="start" mt={4}>
-        <AcademicProgressBar approved={approved} total={total} />
-      </VStack>
-      <Toaster/>
-
-      {/* Bottom buttons */}
-      <HStack 
-        position="fixed"
-        right="20px"
-        bottom="20px"
-        gap={4}
-      >
-        <Button
-          onClick={() => setShowStatistics(true)}
-          borderRadius="full"
-          p={0}
-          w="40px"
-          h="40px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          colorScheme="blue"
-        >
-          <RiBarChartLine />
-        </Button>
-        <Button
-          onClick={() => setShowSettings(true)}
-          borderRadius="full"
-          p={0}
-          w="40px"
-          h="40px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <RiSettings3Line />
-        </Button>
-      </HStack>
-
-      <SettingsModal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        onDeleteProgress={handleDeleteProgress}
-      />
-
-      <StatisticsModal
-        isOpen={showStatistics}
-        onClose={() => setShowStatistics(false)}
-        subjects={materias}
-        totalCredits={totalCredits}
-        approved={approved}
-        remaining={remaining}
-        promedio={promedio}
-        estimatedRemainingTerms={estimatedRemainingTerms}
-      />
     </Box>
   );
 };

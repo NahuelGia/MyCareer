@@ -3,6 +3,7 @@ import { carreras } from "./pages/materias/utils/jsonDbs";
 import { useSubjects } from "./context/SubjectsContext";
 import { CareerCard } from "./components/CareerCard";
 import { useEffect } from "react";
+import { Navbar } from "./components/Navbar";
 
 export default function Page() {
 	const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
@@ -25,8 +26,9 @@ export default function Page() {
 	}
 
 	return (
-		<Flex minH="100vh" direction="column" justify="center">
-			<Container maxW="container.lg" py={20}>
+		<Flex minH="100vh" direction="column">
+			<Navbar />
+			<Container maxW="container.lg" py={20} flex="1">
 				<Center>
 					<VStack gap={8} align="center">
 						<VStack gap={2} align="center">
