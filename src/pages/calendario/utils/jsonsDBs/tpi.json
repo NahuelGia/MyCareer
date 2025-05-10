@@ -1,0 +1,612 @@
+{
+  "data": [
+    {
+      "asignatura": "Matemática",
+      "comisión": "1A",
+      "cursada": [{ "dia": "Mar", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "1B",
+      "cursada": [{ "dia": "Mar", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "1A",
+      "cursada": [{ "dia": "Mar", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "1B",
+      "cursada": [{ "dia": "Mar", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "2A",
+      "cursada": [{ "dia": "Mié", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "2B",
+      "cursada": [{ "dia": "Mié", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "2C",
+      "cursada": [{ "dia": "Mié", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "2A",
+      "cursada": [{ "dia": "Mié", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "2B",
+      "cursada": [{ "dia": "Mié", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "3A",
+      "cursada": [{ "dia": "Jue", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "3B",
+      "cursada": [{ "dia": "Jue", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "3A",
+      "cursada": [{ "dia": "Jue", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "3B",
+      "cursada": [{ "dia": "Jue", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "4A",
+      "cursada": [{ "dia": "Vie", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "4B",
+      "cursada": [{ "dia": "Vie", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "4A",
+      "cursada": [{ "dia": "Vie", "horario": "8:00 a 12:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "5A",
+      "cursada": [{ "dia": "Mar", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "5A",
+      "cursada": [{ "dia": "Mar", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "6A",
+      "cursada": [{ "dia": "Mié", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "6B",
+      "cursada": [{ "dia": "Mié", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "6A",
+      "cursada": [{ "dia": "Mié", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "6B",
+      "cursada": [{ "dia": "Mié", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "7A",
+      "cursada": [{ "dia": "Jue", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "8A",
+      "cursada": [{ "dia": "Vie", "horario": "13:00 a 17:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "9A",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "9B",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "9A",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "10A",
+      "cursada": [{ "dia": "Mié", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "10B",
+      "cursada": [{ "dia": "Mié", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "10A",
+      "cursada": [{ "dia": "Mié", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "11A",
+      "cursada": [{ "dia": "Jue", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Matemática",
+      "comisión": "11B",
+      "cursada": [{ "dia": "Jue", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "11A",
+      "cursada": [{ "dia": "Jue", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "EPyL",
+      "comisión": "11B",
+      "cursada": [{ "dia": "Jue", "horario": "18:00 a 22:00" }]
+    },
+    {
+      "asignatura": "Bases de Datos",
+      "comisión": "1035-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:00 a 20:59" },
+        { "dia": "Jue", "horario": "15:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Bases de Datos",
+      "comisión": "1035-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:00 a 20:59" },
+        { "dia": "Sáb", "horario": "10:00 a 12:59" }
+      ]
+    },
+    {
+      "asignatura": "Bases de Datos",
+      "comisión": "1035-3-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:00 a 20:59" },
+        { "dia": "Sáb", "horario": "10:00 a 12:59" }
+      ]
+    },
+    {
+      "asignatura": "Bases de Datos",
+      "comisión": "1035-4-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:00 a 20:59" },
+        { "dia": "Sáb", "horario": "10:00 a 12:59" }
+      ]
+    },
+    {
+      "asignatura": "Bases de Datos",
+      "comisión": "1035-5-G14 (Virtual Asincronica)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 10:59" },
+        { "dia": "Vie", "horario": "09:00 a 10:59" }
+      ]
+    },
+    {
+      "asignatura": "Bases de Datos II",
+      "comisión": "1048-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 10:59" },
+        { "dia": "Vie", "horario": "09:00 a 10:59" }
+      ]
+    },
+    {
+      "asignatura": "Características de Lenguajes de Programación",
+      "comisión": "1312-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Construcción de Interfaces de Usuario",
+      "comisión": "1043-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:30 a 20:59" },
+        { "dia": "Jue", "horario": "18:30 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Desarrollo de Aplicaciones",
+      "comisión": "1046-1-CP (Virtual Sincrónica)",
+      "cursada": [
+        { "dia": "Mar", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "18:00 a 20:59" }
+      ]
+    },
+    {
+      "asignatura": "Elementos de Ingeniería de Software",
+      "comisión": "1042-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "19:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Estrategias de Persistencia",
+      "comisión": "1044-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Vie", "horario": "16:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Estructuras de Datos",
+      "comisión": "1036-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "16:00 a 17:59" },
+        { "dia": "Jue", "horario": "16:00 a 17:59" },
+        { "dia": "Mar", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Estructuras de Datos",
+      "comisión": "1036-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 19:59" },
+        { "dia": "Jue", "horario": "18:00 a 19:59" },
+        { "dia": "Mar", "horario": "14:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Estructuras de Datos",
+      "comisión": "1036-3-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 19:59" },
+        { "dia": "Jue", "horario": "18:00 a 19:59" },
+        { "dia": "Mar", "horario": "14:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Estructuras de Datos",
+      "comisión": "1036-4-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "16:00 a 17:59" },
+        { "dia": "Jue", "horario": "16:00 a 17:59" },
+        { "dia": "Mar", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Inglés II (P-W)",
+      "comisión": "90028-C-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Lun", "horario": "09:00 a 11:59" }]
+    },
+    {
+      "asignatura": "Inglés II (P-W)",
+      "comisión": "90028-C-2-G14 (Presencial)",
+      "cursada": [{ "dia": "Mié", "horario": "10:00 a 12:59" }]
+    },
+    {
+      "asignatura": "Introducción a la Bioinformática",
+      "comisión": "1052-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Mié", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "09:00 a 11:59" },
+        { "dia": "Mié", "horario": "09:00 a 10:59" },
+        { "dia": "Jue", "horario": "09:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "12:00 a 14:59" },
+        { "dia": "Mié", "horario": "09:00 a 10:59" },
+        { "dia": "Jue", "horario": "12:00 a 14:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-3-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "16:00 a 18:59" },
+        { "dia": "Mié", "horario": "19:00 a 20:59" },
+        { "dia": "Jue", "horario": "16:00 a 18:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-4-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "19:00 a 20:59" },
+        { "dia": "Jue", "horario": "19:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-5-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "16:00 a 18:59" },
+        { "dia": "Mié", "horario": "16:00 a 18:59" },
+        { "dia": "Jue", "horario": "16:00 a 18:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-6-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "19:00 a 20:59" },
+        { "dia": "Jue", "horario": "19:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción a la Programación",
+      "comisión": "487-7-G14 (Virtual Sincrónica)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "09:00 a 10:59" },
+        { "dia": "Jue", "horario": "19:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Introducción al Desarrollo de Videojuegos",
+      "comisión": "1056-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Lun", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Laboratorio de Sistemas Operativos y Redes",
+      "comisión": "1047-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Jue", "horario": "09:00 a 12:59" }]
+    },
+    {
+      "asignatura": "Lenguajes Formales y Autómatas",
+      "comisión": "1306-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 20:59" },
+        { "dia": "Mié", "horario": "18:30 a 20:29" }
+      ]
+    },
+    {
+      "asignatura": "Lógica y Programación",
+      "comisión": "1302-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Mié", "horario": "17:00 a 20:59" }]
+    },
+    {
+      "asignatura": "Matemática I",
+      "comisión": "1033-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "09:00 a 12:59" },
+        { "dia": "Jue", "horario": "09:00 a 12:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática I",
+      "comisión": "1033-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "18:00 a 21:59" },
+        { "dia": "Mié", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática I",
+      "comisión": "1033-4-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "08:00 a 11:59" },
+        { "dia": "Vie", "horario": "08:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática I",
+      "comisión": "1033-5-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 21:59" },
+        { "dia": "Vie", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática I",
+      "comisión": "1033-6-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "13:00 a 16:59" },
+        { "dia": "Vie", "horario": "13:00 a 16:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática II",
+      "comisión": "1041-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "16:00 a 17:59" },
+        { "dia": "Vie", "horario": "16:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Matemática II",
+      "comisión": "1041-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 18:59" },
+        { "dia": "Vie", "horario": "18:00 a 18:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 11:59" },
+        { "dia": "Vie", "horario": "09:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 11:59" },
+        { "dia": "Vie", "horario": "09:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-3-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "15:00 a 17:59" },
+        { "dia": "Vie", "horario": "15:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-4-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 19:59" },
+        { "dia": "Vie", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-5-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "09:00 a 11:59" },
+        { "dia": "Vie", "horario": "12:30 a 15:29" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-6-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 11:59" },
+        { "dia": "Sáb", "horario": "09:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-7-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 19:59" },
+        { "dia": "Vie", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Organización de Computadoras",
+      "comisión": "1032-8-G14 (Virtual Asincrónica)",
+      "cursada": []
+    },
+    {
+      "asignatura": "Participación y Gestión en Proyectos de Software Libre",
+      "comisión": "1049-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Jue", "horario": "14:00 a 17:59" }]
+    },
+    {
+      "asignatura": "Programación Concurrente",
+      "comisión": "1040-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Programación con Objetos I",
+      "comisión": "1034-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "14:00 a 17:59" },
+        { "dia": "Jue", "horario": "14:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Programación con Objetos I",
+      "comisión": "1034-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mié", "horario": "18:00 a 21:59" },
+        { "dia": "Vie", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Programación con Objetos II",
+      "comisión": "1037-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "18:00 a 20:59" },
+        { "dia": "Jue", "horario": "15:00 a 17:59" }
+      ]
+    },
+    {
+      "asignatura": "Programación con Objetos II",
+      "comisión": "1037-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "18:00 a 20:59" },
+        { "dia": "Jue", "horario": "18:00 a 20:59" }
+      ]
+    },
+    {
+      "asignatura": "Programación con Objetos III",
+      "comisión": "1051-1-G14 (Presencial)",
+      "cursada": [{ "dia": "Mar", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Programación Funcional",
+      "comisión": "1045-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 21:59" },
+        { "dia": "Jue", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Redes de Computadoras",
+      "comisión": "1038-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "09:00 a 10:59" },
+        { "dia": "Jue", "horario": "08:00 a 11:59" }
+      ]
+    },
+    {
+      "asignatura": "Redes de Computadoras",
+      "comisión": "1038-2-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "18:00 a 19:59" },
+        { "dia": "Jue", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Redes de Computadoras",
+      "comisión": "1038-3-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Mar", "horario": "20:00 a 21:59" },
+        { "dia": "Jue", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Seguridad Informática",
+      "comisión": "646-1-CP (Presencial)",
+      "cursada": [{ "dia": "Sáb", "horario": "09:00 a 12:59" }]
+    },
+    {
+      "asignatura": "Seminarios: Introducción a la Electrónica y Programación de Controladores con Arduino",
+      "comisión": "1058-1-CP (Presencial)",
+      "cursada": [{ "dia": "Jue", "horario": "18:00 a 21:59" }]
+    },
+    {
+      "asignatura": "Sistemas Operativos",
+      "comisión": "1039-1-G14 (Presencial)",
+      "cursada": [
+        { "dia": "Lun", "horario": "19:00 a 21:59" },
+        { "dia": "Mié", "horario": "18:00 a 21:59" }
+      ]
+    },
+    {
+      "asignatura": "Trabajo de Inserción Profesional",
+      "comisión": "1080-1-CP (Presencial)",
+      "cursada": [{ "dia": "Sáb", "horario": "08:00 a 12:59" }]
+    }
+  ]
+}
