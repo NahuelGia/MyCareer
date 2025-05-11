@@ -171,6 +171,66 @@
       "cursada": [{ "dia": "Jue", "horario": "18:00 a 22:00" }]
     },
     {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "1A",
+      "cursada": [{ "dia": "Mar", "horario": "08:00-10:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "1B",
+      "cursada": [{ "dia": "Mar", "horario": "10:00-12:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "1D",
+      "cursada": [{ "dia": "Mar", "horario": "10:00-12:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "2B",
+      "cursada": [{ "dia": "Mié", "horario": "10:00-12:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "3A",
+      "cursada": [{ "dia": "Jue", "horario": "08:00-10:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "3B",
+      "cursada": [{ "dia": "Jue", "horario": "10:00-12:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "5B",
+      "cursada": [{ "dia": "Mar", "horario": "15:00-17:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "7B",
+      "cursada": [{ "dia": "Jue", "horario": "15:00-17:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "9A",
+      "cursada": [{ "dia": "Mar", "horario": "18:00-20:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "10A",
+      "cursada": [{ "dia": "Mié", "horario": "18:00-20:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "11A",
+      "cursada": [{ "dia": "Jue", "horario": "18:00-20:00" }]
+    },
+    {
+      "materia": "Lectura y Escritura Académica",
+      "comisión": "11B",
+      "cursada": [{ "dia": "Jue", "horario": "20:00-22:00" }]
+    },
+    {
       "asignatura": "Bases de Datos",
       "comisión": "1035-1-G14 (Presencial)",
       "cursada": [
