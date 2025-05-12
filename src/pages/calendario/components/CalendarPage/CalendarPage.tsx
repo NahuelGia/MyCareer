@@ -16,6 +16,7 @@ import { Navbar } from '../../../../components/Navbar';
 import { useSubjects } from '../../../../context/SubjectsContext';
 import { BasicCheckbox } from '../../../../components/Checkbox';
 import tpiData from '../../utils/jsonDbs/tpi.json';
+import { CalendarStorageService } from '../../../../services/storage/calendar-storage';
 
 // Define CalendarEvent type with the new structure
 interface CalendarEvent {
@@ -44,7 +45,16 @@ interface SubjectSelection {
   isSelected: boolean;
 }
 
-const STORAGE_KEY = 'calendar_selections';
+const STORAGE_KEY_PREFIX = 'calendar_selections';
+
+// Default career data mapping - in a real application, this would be more dynamic
+// or loaded from an API
+const careerCalendarData: Record<string, any> = {
+  'tpi': tpiData.data,
+  // Add other career data here as needed
+  // 'licenciatura': licenciaturaData.data,
+  // etc.
+};
 
 const generateUniqueColor = (text: string): string => {
   let hash = 0;
@@ -68,35 +78,54 @@ export const CalendarPage: React.FC = () => {
   const [selectedComisiones, setSelectedComisiones] = useState<Record<string, string>>({});
   const [selections, setSelections] = useState<Record<string, boolean>>({});
 
+  // Get the career-specific storage key
+  const getStorageKey = () => {
+    if (!id) return STORAGE_KEY_PREFIX;
+    return `${STORAGE_KEY_PREFIX}_${id}`;
+  };
+
   // Load events and saved selections from localStorage
   useEffect(() => {
-    try {
-      setSubjectEvents(tpiData.data);
-      
-      // Load saved selections from localStorage
-      const savedSelections = localStorage.getItem(STORAGE_KEY);
-      if (savedSelections) {
-        const parsed = JSON.parse(savedSelections);
-        setSelections(parsed.selections || {});
-        setSelectedComisiones(parsed.selectedComisiones || {});
+    if (!id) return;
+    
+    const loadData = async () => {
+      try {
+        // Use career-specific data if available, otherwise fall back to tpiData
+        // In a real application, this would be more dynamic or loaded from an API
+        const careerData = careerCalendarData[id] || tpiData.data;
+        setSubjectEvents(careerData);
+        
+        // Load saved selections from localStorage with career-specific key
+        const savedSelections = localStorage.getItem(getStorageKey());
+        if (savedSelections) {
+          const parsed = JSON.parse(savedSelections);
+          setSelections(parsed.selections || {});
+          setSelectedComisiones(parsed.selectedComisiones || {});
+        } else {
+          // If no saved selections exist for this career, reset to empty state
+          setSelections({});
+          setSelectedComisiones({});
+        }
+        
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading calendar events or saved selections:', error);
+        setLoading(false);
       }
-      
-      setLoading(false);
-    } catch (error) {
-      console.error('Error loading calendar events or saved selections:', error);
-      setLoading(false);
-    }
-  }, []);
+    };
+    
+    loadData();
+  }, [id]); // Include id in dependency array to reload data when career changes
 
   // Save selections to localStorage whenever they change
   useEffect(() => {
-    if (!loading) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    if (!loading && id) {
+      localStorage.setItem(getStorageKey(), JSON.stringify({
         selections,
         selectedComisiones
       }));
     }
-  }, [selections, selectedComisiones, loading]);
+  }, [selections, selectedComisiones, loading, id]);
 
   if (isLoading || loading) {
     return <div>Loading...</div>;
