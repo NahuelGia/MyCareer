@@ -6,7 +6,7 @@ import { useParams, useNavigate } from 'react-router';
 import { useSubjectsActions } from '../../hooks/useSubjectsActions';
 import { useEffect, useState } from 'react';
 import { SubjectsStorageService } from '../../services/storage/local-storage';
-import { RiSettings3Line, RiBarChartLine } from 'react-icons/ri';
+import { RiSettings3Line, RiBarChartLine, RiCalendarLine } from 'react-icons/ri';
 import { SettingsModal } from './components/SettingsModal/SettingsModal';
 import { AcademicProgressBar } from './components/AcademicProgressBar';
 import { StatisticsModal } from './components/StatisticsModal/StatisticsModal';
@@ -33,6 +33,10 @@ export const MateriasPage = () => {
     } catch (err) {
       console.error('Error deleting progress:', err);
     }
+  };
+
+  const handleNavigateToCalendar = () => {
+    navigate(`/materias/${id}/calendar`);
   };
 
   if (isLoading) {
@@ -85,14 +89,11 @@ export const MateriasPage = () => {
     <Box position="relative" minH="100vh" display="flex" flexDirection="column">
       <Navbar />
       
-      <Box p={4} flex="1">
-        <Heading as="h1" size="2xl" textAlign="center" mt={4}>{careerData.nombre}</Heading>
-
+      <Box p={8} flex="1" display="flex" flexDirection="column">
         <VStack align="start" mb={4}>
-          <Heading as="h2" size="lg">Mi trayecto</Heading>
         </VStack>
 
-        <Box bg="gray.100" p={4} height="600px">
+        <Box bg="gray.100" p={4} height="calc(85vh - 150px)" width="100%">
           <TreeChart />
         </Box>
 
@@ -109,6 +110,19 @@ export const MateriasPage = () => {
           bottom="20px"
           gap={4}
         >
+          <Button
+            onClick={handleNavigateToCalendar}
+            borderRadius="full"
+            p={0}
+            w="40px"
+            h="40px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            colorScheme="green"
+          >
+            <RiCalendarLine />
+          </Button>
           <Button
             onClick={() => setShowStatistics(true)}
             borderRadius="full"

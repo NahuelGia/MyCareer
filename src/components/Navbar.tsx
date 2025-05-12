@@ -2,7 +2,11 @@ import { Box, Flex, Text, Link } from "@chakra-ui/react";
 import { useLocation, useParams } from "react-router";
 import { useSubjects } from "../context/SubjectsContext";
 
-export const Navbar = () => {
+interface NavbarProps {
+  customTitle?: string;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ customTitle }) => {
   const location = useLocation();
   const { id } = useParams();
   const { subjectsData } = useSubjects();
@@ -44,7 +48,7 @@ export const Navbar = () => {
         </Link>
         
         <Text fontWeight="medium" fontSize="md">
-          {screenDescription}
+          {customTitle || screenDescription}
         </Text>
       </Flex>
     </Box>
