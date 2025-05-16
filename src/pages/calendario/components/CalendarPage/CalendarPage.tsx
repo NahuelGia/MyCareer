@@ -17,6 +17,8 @@ import { useSubjects } from '../../../../context/SubjectsContext';
 import { BasicCheckbox } from '../../../../components/Checkbox';
 import tpiData from '../../utils/jsonDbs/tpi.json';
 import { CalendarStorageService } from '../../../../services/storage/calendar-storage';
+import { useUser } from '@/context/UserContext';
+import { loadUserCalendarData, updateUserData } from '@/lib/supabaseClient';
 
 // Define CalendarEvent type with the new structure
 interface CalendarEvent {
@@ -72,6 +74,7 @@ const generateUniqueColor = (text: string): string => {
 export const CalendarPage: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user, isFetchingUser } = useUser();
   const { subjectsData, isLoading } = useSubjects();
   const [subjectEvents, setSubjectEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -87,18 +90,18 @@ export const CalendarPage: React.FC = () => {
   // Load events and saved selections from localStorage
   useEffect(() => {
     if (!id) return;
-    
+    if(isFetchingUser) return;
+
     const loadData = async () => {
       try {
         // Use career-specific data if available, otherwise fall back to tpiData
         // In a real application, this would be more dynamic or loaded from an API
-        const careerData = careerCalendarData[id] || tpiData.data;
+        const careerData = careerCalendarData[id] || tpiData.data; //TODO Hacer que traiga la oferta de la pc
         setSubjectEvents(careerData);
-        
         // Load saved selections from localStorage with career-specific key
-        const savedSelections = localStorage.getItem(getStorageKey());
+        const savedSelections = user ? await loadUserCalendarData(user.id, getStorageKey()) :  localStorage.getItem(getStorageKey()); 
         if (savedSelections) {
-          const parsed = JSON.parse(savedSelections);
+          const parsed = user ? savedSelections : JSON.parse(savedSelections);
           setSelections(parsed.selections || {});
           setSelectedComisiones(parsed.selectedComisiones || {});
         } else {
@@ -115,19 +118,24 @@ export const CalendarPage: React.FC = () => {
     };
     
     loadData();
-  }, [id]); // Include id in dependency array to reload data when career changes
+  }, [id, isFetchingUser]); // Include id in dependency array to reload data when career changes
 
   // Save selections to localStorage whenever they change
   useEffect(() => {
-    if (!loading && id) {
-      localStorage.setItem(getStorageKey(), JSON.stringify({
+    if (!loading && id && !isFetchingUser ) {
+      const data = {
         selections,
         selectedComisiones
-      }));
+      }
+ 
+      if (user){
+        updateUserData(user.id, getStorageKey(), data)
+      }
+      localStorage.setItem(getStorageKey(), JSON.stringify(data));
     }
   }, [selections, selectedComisiones, loading, id]);
 
-  if (isLoading || loading) {
+  if (isLoading || loading || isFetchingUser) {
     return <div>Loading...</div>;
   }
 

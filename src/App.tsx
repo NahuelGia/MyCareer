@@ -4,15 +4,17 @@ import { useSubjects } from "./context/SubjectsContext";
 import { CareerCard } from "./components/CareerCard";
 import { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
+import { useUser } from "./context/UserContext";
 
 export default function Page() {
 	const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
+	const { isFetchingUser } = useUser();
 
 	useEffect(() => {
 		loadCareersProgress();
 	}, []);
 
-	if (isLoading) {
+	if (isLoading || isFetchingUser) {
 		return (
 			<Center h="100vh">
 				<VStack gap="2">

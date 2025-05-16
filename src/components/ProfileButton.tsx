@@ -1,31 +1,32 @@
 import { supabase } from "@/lib/supabaseClient";
-import { useState } from "react";
 import { Avatar, AvatarGroup, Box, Button, Popover, Text } from "@chakra-ui/react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { useUser } from "@/context/UserContext";
+import { useNavigate } from "react-router";
 
 export const ProfileButton = () => {
-   const [isModalOpen, setIsModalOpen] = useState(false);
    const { user, signOut } = useUser();
+   const navigate = useNavigate();
+
+   const handleSignOut = async () => {
+      await signOut();
+      navigate("/");
+   };
 
    return (
       <>
          <Popover.Root positioning={{ placement: "bottom-end" }}>
             <Popover.Trigger>
                {user ? (
-                  <AvatarGroup
-                     onClick={() => setIsModalOpen(true)}
-                     cursor={"pointer"}
-                     _hover={{ opacity: 0.8 }}
-                  >
+                  <AvatarGroup cursor={"pointer"} _hover={{ opacity: 0.8 }}>
                      <Avatar.Root>
                         <Avatar.Fallback />
                         <Avatar.Image src={user.user_metadata.avatar_url} />
                      </Avatar.Root>
                   </AvatarGroup>
                ) : (
-                  <Button onClick={() => setIsModalOpen(true)}>Iniciar sesión</Button>
+                  <Button>Iniciar sesión</Button>
                )}
             </Popover.Trigger>
             <Popover.Positioner>
@@ -37,7 +38,7 @@ export const ProfileButton = () => {
                            <Text mb={2} fontWeight="semibold">
                               ¡Hola, {user.user_metadata?.full_name || "Usuario"}!
                            </Text>
-                           <Button size="sm" colorScheme="red" onClick={() => signOut()}>
+                           <Button size="sm" colorScheme="red" onClick={handleSignOut}>
                               Cerrar sesión
                            </Button>
                         </Box>
