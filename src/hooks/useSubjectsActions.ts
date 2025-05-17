@@ -97,16 +97,6 @@ export function useSubjectsActions() {
       setIsSaving(false);
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
-
-      // toaster.create({
-      //   title: "Se guardo el progreso.",
-      //   description: `La materia ha sido marcada como ${newStatus.toLowerCase()}.`,
-      //   type: "info",
-      //   duration: 6000,
-      //   meta: {
-      //     closable: true,
-      //   },
-      // });
     } catch (err) {
       const errorMessage =
         err instanceof Error
