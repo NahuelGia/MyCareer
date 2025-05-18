@@ -329,7 +329,14 @@ export const CalendarPage: React.FC = () => {
 
   return (
     <Container maxW="container.xl">
-      <Navbar customTitle="Horario Semanal" />
+      <Navbar
+        customTitle="Horario Semanal"
+        profiles={profiles}
+        selectedProfile={activeProfileId}
+        onProfileChange={handleProfileChange}
+        onCreateProfile={handleCreateProfile}
+        onDeleteProfile={handleDeleteProfile}
+      />
 
       <Box
         position="relative"
@@ -338,13 +345,6 @@ export const CalendarPage: React.FC = () => {
         flexDirection="column"
         py={4}
       >
-        <ProfileSelector
-          profiles={profiles}
-          selectedProfile={activeProfileId}
-          onProfileChange={handleProfileChange}
-          onCreateProfile={handleCreateProfile}
-          onDeleteProfile={handleDeleteProfile}
-        />
         <Box p={4} flex="1" display="flex">
           {/* Sidebar */}
           <Box
