@@ -1,10 +1,19 @@
-import { Box, Flex, Text, Link, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Text, Link, Spinner, Button } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { useLocation, useParams } from "react-router";
 import { useSubjects } from "../context/SubjectsContext";
 import { ProfileButton } from "./ProfileButton";
 import { useSubjectsActions } from "../hooks/useSubjectsActions";
 import Check from "./images/check.svg";
 import Save from "./images/save.svg";
+import React from "react";
+import { Select as ChakraSelect } from "@chakra-ui/select";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+} from "@chakra-ui/react";
 
 interface NavbarProps {
   customTitle?: string;
@@ -30,6 +39,24 @@ export const Navbar: React.FC<NavbarProps> = ({ customTitle }) => {
       screenDescription = "Carrera";
     }
   }
+
+  // Simulación de perfiles (reemplaza por tus datos reales)
+  const profiles = [
+    { id: "1", name: "Perfil 1" },
+    { id: "2", name: "Perfil 2" },
+  ];
+  const [selectedProfile, setSelectedProfile] = React.useState(profiles[0].id);
+
+  const handleProfileChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedProfile(e.target.value);
+  };
+
+  const handleNewProfile = () => {
+    alert("Abrir modal de nuevo perfil");
+  };
+  const handleDeleteProfile = () => {
+    alert("Abrir modal de eliminar perfil");
+  };
 
   return (
     <Box
@@ -64,6 +91,7 @@ export const Navbar: React.FC<NavbarProps> = ({ customTitle }) => {
               <Spinner size="sm" color="#000000" />
             </Flex>
           )}
+
           {!isSaving && saved && (
             <Flex flexDirection="row" gap={2} marginRight={2}>
               <img

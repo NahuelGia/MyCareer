@@ -103,6 +103,7 @@ export default function ModalMateria({
 
             <Box
               position="fixed"
+              width="fit-content"
               top="50%"
               left="50%"
               transform="translate(-50%, -50%)"
@@ -110,7 +111,6 @@ export default function ModalMateria({
               borderRadius="sm"
               boxShadow="dark-lg"
               p={6}
-              width="800px"
               zIndex={5}
               bgGradient="linear(to-br, white, gray.50)"
               letterSpacing="wide"
