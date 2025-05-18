@@ -23,11 +23,11 @@ import { CalendarProfile } from "../pages/calendario/utils/storage";
 
 interface NavbarProps {
   customTitle?: string;
-  profiles: CalendarProfile[];
-  selectedProfile: string;
-  onProfileChange: (profileId: string) => void;
-  onCreateProfile: (name: string) => void;
-  onDeleteProfile: (profileId: string) => void;
+  profiles?: CalendarProfile[];
+  selectedProfile?: string;
+  onProfileChange?: (profileId: string) => void;
+  onCreateProfile?: (name: string) => void;
+  onDeleteProfile?: (profileId: string) => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -64,10 +64,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   const toast = useToast();
 
   const handleProfileChangeLocal = (e: any) => {
-    onProfileChange(e.target.value);
+    onProfileChange && onProfileChange(e.target.value);
   };
   const handleCreateProfileLocal = (name: string) => {
-    onCreateProfile(name);
+    onCreateProfile && onCreateProfile(name);
     setCreateOpen(false);
     toast({
       title: "Perfil creado",
@@ -82,7 +82,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     setDeleteOpen(true);
   };
   const handleDeleteProfileLocal = (profileId: string) => {
-    onDeleteProfile(profileId);
+    onDeleteProfile && onDeleteProfile(profileId);
     setDeleteOpen(false);
     toast({
       title: "Perfil eliminado",
@@ -139,53 +139,64 @@ export const Navbar: React.FC<NavbarProps> = ({
               />
             </Flex>
           )}
-          {/* Botón Seleccionar perfil y Popover (Radix UI) */}
-          <Popover.Root positioning={{ placement: "bottom-end" }}>
-            <Popover.Trigger>
-              <Button variant="outline" mr={4}>
-                Seleccionar perfil
-              </Button>
-            </Popover.Trigger>
-            <Popover.Positioner>
-              <Popover.Content>
-                <Popover.CloseTrigger />
-                <Popover.Body border={"1px solid"} borderColor="gray.200">
-                  <Flex direction="column" align="stretch" gap={3} width="100%">
-                    <Box width="100%">
-                      <ChakraSelect
-                        value={selectedProfile}
-                        onChange={handleProfileChangeLocal}
+          {location.pathname.includes("calendar") &&
+            profiles &&
+            selectedProfile &&
+            onProfileChange &&
+            onCreateProfile &&
+            onDeleteProfile && (
+              <Popover.Root positioning={{ placement: "bottom-end" }}>
+                <Popover.Trigger>
+                  <Button variant="outline" mr={4}>
+                    Seleccionar perfil
+                  </Button>
+                </Popover.Trigger>
+                <Popover.Positioner>
+                  <Popover.Content>
+                    <Popover.CloseTrigger />
+                    <Popover.Body border={"1px solid"} borderColor="gray.200">
+                      <Flex
+                        direction="column"
+                        align="stretch"
+                        gap={3}
                         width="100%"
-                        fontFamily="Inter, sans-serif"
-                        iconColor="transparent"
                       >
-                        {profiles.map((profile) => (
-                          <option key={profile.id} value={profile.id}>
-                            {profile.name}
-                          </option>
-                        ))}
-                      </ChakraSelect>
-                    </Box>
-                    <Button
-                      colorScheme="blue"
-                      width="100%"
-                      onClick={() => setCreateOpen(true)}
-                    >
-                      Nuevo Perfil
-                    </Button>
-                    <Button
-                      colorScheme="red"
-                      width="100%"
-                      onClick={() => handleDeleteClick(selectedProfile)}
-                      disabled={profiles.length <= 1}
-                    >
-                      Eliminar Perfil
-                    </Button>
-                  </Flex>
-                </Popover.Body>
-              </Popover.Content>
-            </Popover.Positioner>
-          </Popover.Root>
+                        <Box width="100%">
+                          <ChakraSelect
+                            value={selectedProfile}
+                            onChange={handleProfileChangeLocal}
+                            width="100%"
+                            fontFamily="Inter, sans-serif"
+                            iconColor="transparent"
+                          >
+                            {profiles.map((profile) => (
+                              <option key={profile.id} value={profile.id}>
+                                {profile.name}
+                              </option>
+                            ))}
+                          </ChakraSelect>
+                        </Box>
+                        <Button
+                          colorScheme="blue"
+                          width="100%"
+                          onClick={() => setCreateOpen(true)}
+                        >
+                          Nuevo Perfil
+                        </Button>
+                        <Button
+                          colorScheme="red"
+                          width="100%"
+                          onClick={() => handleDeleteClick(selectedProfile)}
+                          disabled={profiles.length <= 1}
+                        >
+                          Eliminar Perfil
+                        </Button>
+                      </Flex>
+                    </Popover.Body>
+                  </Popover.Content>
+                </Popover.Positioner>
+              </Popover.Root>
+            )}
           <CreateProfileModal
             isOpen={isCreateOpen}
             onClose={() => setCreateOpen(false)}
@@ -196,7 +207,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClose={() => setDeleteOpen(false)}
             onConfirm={() => handleDeleteProfileLocal(profileToDelete)}
             profileName={
-              profiles.find((p) => p.id === profileToDelete)?.name || ""
+              profiles?.find((p) => p.id === profileToDelete)?.name || ""
             }
           />
           <ProfileButton />
