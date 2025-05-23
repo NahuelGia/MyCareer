@@ -1,459 +1,472 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
+import {useDebounce} from "use-debounce";
+import {motion, AnimatePresence} from "framer-motion";
 import {
-  Box,
-  Button,
-  HStack,
-  VStack,
-  Text,
-  Heading,
-  Flex,
-  Container,
+	Box,
+	Button,
+	HStack,
+	VStack,
+	Text,
+	Heading,
+	Flex,
+	Container,
+	Input,
 } from "@chakra-ui/react";
-import { RiArrowLeftLine } from "react-icons/ri";
+import {RiArrowLeftLine} from "react-icons/ri";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useNavigate, useParams } from "react-router";
-import { Navbar } from "../../../../components/Navbar";
-import { useSubjects } from "../../../../context/SubjectsContext";
-import { BasicCheckbox } from "../../../../components/Checkbox";
+import {useNavigate, useParams} from "react-router";
+import {Navbar} from "../../../../components/Navbar";
+import {useSubjects} from "../../../../context/SubjectsContext";
+import {BasicCheckbox} from "../../../../components/Checkbox";
 import tpiData from "../../utils/jsonDbs/tpi.json";
-import { CalendarStorageService } from "../../../../services/storage/calendar-storage";
-import { useUser } from "@/context/UserContext";
-import { loadUserCalendarData, updateUserData } from "@/lib/supabaseClient";
-import { CalendarStorage, CalendarProfile } from "../../utils/storage";
-import { ProfileSelector } from "../ProfileSelector/ProfileSelector";
+import {CalendarStorageService} from "../../../../services/storage/calendar-storage";
+import {useUser} from "@/context/UserContext";
+import {loadUserCalendarData, updateUserData} from "@/lib/supabaseClient";
+import {CalendarStorage, CalendarProfile} from "../../utils/storage";
+import {ProfileSelector} from "../ProfileSelector/ProfileSelector";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import esLocale from "@fullcalendar/core/locales/es";
-import { getStorageKey } from "../../utils/helpers";
 
-// Define CalendarEvent type with the new structure
 interface CalendarEvent {
-  title: string;
-  daysOfWeek: string[];
-  startTime: string;
-  endTime: string;
-  extendedProps: {
-    comisiones: string[];
-  };
-  color?: string;
+	title: string;
+	daysOfWeek: string[];
+	startTime: string;
+	endTime: string;
+	extendedProps: {
+		comisiones: string[];
+	};
+	color?: string;
 }
 
-// Define a type for single event with comision
 interface CalendarDisplayEvent extends Omit<CalendarEvent, "extendedProps"> {
-  extendedProps: {
-    comision: string;
-    comisiones: string[];
-  };
-}
-
-// Define a type for the user's selections
-interface SubjectSelection {
-  title: string;
-  comision: string;
-  isSelected: boolean;
+	extendedProps: {
+		comision: string;
+		comisiones: string[];
+	};
 }
 
 const STORAGE_KEY_PREFIX = "calendar_selections";
 
-// Default career data mapping - in a real application, this would be more dynamic
-// or loaded from an API
 const careerCalendarData: Record<string, any> = {
-  tpi: tpiData.data,
-  // Add other career data here as needed
-  // 'licenciatura': licenciaturaData.data,
-  // etc.
+	tpi: tpiData.data,
 };
 
 const generateUniqueColor = (text: string): string => {
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) {
-    hash = text.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  const hue = Math.abs(hash) % 360;
-  const saturation = 70 + (Math.abs(hash) % 20);
-  const lightness = 35 + (Math.abs(hash) % 25);
-
-  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+	let hash = 0;
+	for (let i = 0; i < text.length; i++) {
+		hash = text.charCodeAt(i) + ((hash << 5) - hash);
+	}
+	const hue = Math.abs(hash) % 360;
+	const saturation = 70 + (Math.abs(hash) % 20);
+	const lightness = 35 + (Math.abs(hash) % 25);
+	return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 };
 
 export const CalendarPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const { user, isFetchingUser } = useUser();
-  const { subjectsData, isLoading } = useSubjects();
-  const [subjectEvents, setSubjectEvents] = useState<CalendarEvent[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [profiles, setProfiles] = useState<CalendarProfile[]>([]);
-  const [activeProfileId, setActiveProfileId] = useState<string>("");
-  const [selections, setSelections] = useState<Record<string, boolean>>({});
-  const [selectedComisiones, setSelectedComisiones] = useState<
-    Record<string, string>
-  >({});
+	const navigate = useNavigate();
+	const {id} = useParams();
+	const {user, isFetchingUser} = useUser();
+	const {subjectsData, isLoading} = useSubjects();
+	const [subjectEvents, setSubjectEvents] = useState<CalendarEvent[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [profiles, setProfiles] = useState<CalendarProfile[]>([]);
+	const [activeProfileId, setActiveProfileId] = useState<string>("");
+	const [selections, setSelections] = useState<Record<string, boolean>>({});
+	const [selectedComisiones, setSelectedComisiones] = useState<
+		Record<string, string>
+	>({});
+	const [searchTerm, setSearchTerm] = useState("");
+	const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
 
-  // Get the career-specific storage key
-  const getStorageKey = () => {
-    if (!id) return STORAGE_KEY_PREFIX;
-    return `${STORAGE_KEY_PREFIX}_${id}`;
-  };
+	const getStorageKey = () => {
+		if (!id) return STORAGE_KEY_PREFIX;
+		return `${STORAGE_KEY_PREFIX}_${id}`;
+	};
 
-  // Load events and saved selections from localStorage
-  useEffect(() => {
-    if (!id) return;
-    if (isFetchingUser) return;
+	useEffect(() => {
+		if (!id) return;
+		if (isFetchingUser) return;
 
-    const loadData = async () => {
-      try {
-        // Use career-specific data if available, otherwise fall back to tpiData
-        // In a real application, this would be more dynamic or loaded from an API
-        const careerData = careerCalendarData[id] || tpiData.data; //TODO Hacer que traiga la oferta de la pc
-        setSubjectEvents(careerData);
-        // Load saved selections from localStorage with career-specific key
-        const savedSelections = user
-          ? await loadUserCalendarData(user.id, getStorageKey())
-          : localStorage.getItem(getStorageKey());
-        if (savedSelections) {
-          const parsed = user ? savedSelections : JSON.parse(savedSelections);
-          setSelections(parsed.selections || {});
-          setSelectedComisiones(parsed.selectedComisiones || {});
-        } else {
-          // If no saved selections exist for this career, reset to empty state
-          setSelections({});
-          setSelectedComisiones({});
-        }
+		const loadData = async () => {
+			try {
+				const careerData = careerCalendarData[id] || tpiData.data;
+				setSubjectEvents(careerData);
+				const savedSelections = user
+					? await loadUserCalendarData(user.id, getStorageKey())
+					: localStorage.getItem(getStorageKey());
+				if (savedSelections) {
+					const parsed = user ? savedSelections : JSON.parse(savedSelections);
+					setSelections(parsed.selections || {});
+					setSelectedComisiones(parsed.selectedComisiones || {});
+				} else {
+					setSelections({});
+					setSelectedComisiones({});
+				}
+				setLoading(false);
+			} catch (error) {
+				console.error(
+					"Error loading calendar events or saved selections:",
+					error
+				);
+				setLoading(false);
+			}
+		};
 
-        setLoading(false);
-      } catch (error) {
-        console.error(
-          "Error loading calendar events or saved selections:",
-          error
-        );
-        setLoading(false);
-      }
-    };
+		loadData();
+	}, [id, isFetchingUser]);
 
-    loadData();
-  }, [id, isFetchingUser]); // Include id in dependency array to reload data when career changes
+	useEffect(() => {
+		if (!loading && id && !isFetchingUser) {
+			const data = {
+				selections,
+				selectedComisiones,
+			};
 
-  // Save selections to localStorage whenever they change
-  useEffect(() => {
-    if (!loading && id && !isFetchingUser) {
-      const data = {
-        selections,
-        selectedComisiones,
-      };
+			if (user) {
+				updateUserData(user.id, getStorageKey(), data);
+			}
+			localStorage.setItem(getStorageKey(), JSON.stringify(data));
+		}
+	}, [selections, selectedComisiones, loading, id]);
 
-      if (user) {
-        updateUserData(user.id, getStorageKey(), data);
-      }
-      localStorage.setItem(getStorageKey(), JSON.stringify(data));
-    }
-  }, [selections, selectedComisiones, loading, id]);
+	useEffect(() => {
+		if (!isFetchingUser && id) {
+			const calendarData = CalendarStorage.getProfiles();
+			setProfiles(calendarData.profiles);
+			setActiveProfileId(calendarData.activeProfileId);
 
-  useEffect(() => {
-    if (!isFetchingUser && id) {
-      const calendarData = CalendarStorage.getProfiles();
-      setProfiles(calendarData.profiles);
-      setActiveProfileId(calendarData.activeProfileId);
+			const activeProfile = calendarData.profiles.find(
+				(p) => p.id === calendarData.activeProfileId
+			);
+			if (activeProfile) {
+				setSelections(activeProfile.selections);
+				setSelectedComisiones(activeProfile.selectedComisiones);
+			}
+			setLoading(false);
+		}
+	}, [id, isFetchingUser]);
 
-      const activeProfile = calendarData.profiles.find(
-        (p) => p.id === calendarData.activeProfileId
-      );
-      if (activeProfile) {
-        setSelections(activeProfile.selections);
-        setSelectedComisiones(activeProfile.selectedComisiones);
-      }
+	const handleProfileChange = (profileId: string) => {
+		const updatedData = CalendarStorage.setActiveProfile(profileId);
+		setActiveProfileId(profileId);
 
-      setLoading(false);
-    }
-  }, [id, isFetchingUser]);
+		const activeProfile = updatedData.profiles.find((p) => p.id === profileId);
+		if (activeProfile) {
+			setSelections(activeProfile.selections);
+			setSelectedComisiones(activeProfile.selectedComisiones);
+		}
+	};
 
-  const handleProfileChange = (profileId: string) => {
-    const updatedData = CalendarStorage.setActiveProfile(profileId);
-    setActiveProfileId(profileId);
+	const handleCreateProfile = (name: string) => {
+		const updatedData = CalendarStorage.createProfile(name);
+		setProfiles(updatedData.profiles);
+		setActiveProfileId(updatedData.activeProfileId);
+		setSelections({});
+		setSelectedComisiones({});
+	};
 
-    const activeProfile = updatedData.profiles.find((p) => p.id === profileId);
-    if (activeProfile) {
-      setSelections(activeProfile.selections);
-      setSelectedComisiones(activeProfile.selectedComisiones);
-    }
-  };
+	const handleDeleteProfile = (profileId: string) => {
+		const updatedData = CalendarStorage.deleteProfile(profileId);
+		setProfiles(updatedData.profiles);
+		setActiveProfileId(updatedData.activeProfileId);
 
-  const handleCreateProfile = (name: string) => {
-    const updatedData = CalendarStorage.createProfile(name);
-    setProfiles(updatedData.profiles);
-    setActiveProfileId(updatedData.activeProfileId);
-    setSelections({});
-    setSelectedComisiones({});
-  };
+		const activeProfile = updatedData.profiles.find(
+			(p) => p.id === updatedData.activeProfileId
+		);
+		if (activeProfile) {
+			setSelections(activeProfile.selections);
+			setSelectedComisiones(activeProfile.selectedComisiones);
+		}
+	};
 
-  const handleDeleteProfile = (profileId: string) => {
-    const updatedData = CalendarStorage.deleteProfile(profileId);
-    setProfiles(updatedData.profiles);
-    setActiveProfileId(updatedData.activeProfileId);
+	useEffect(() => {
+		if (!loading && id && !isFetchingUser) {
+			const updatedData = CalendarStorage.updateProfile(activeProfileId, {
+				selections,
+				selectedComisiones,
+			});
+			setProfiles(updatedData.profiles);
 
-    const activeProfile = updatedData.profiles.find(
-      (p) => p.id === updatedData.activeProfileId
-    );
-    if (activeProfile) {
-      setSelections(activeProfile.selections);
-      setSelectedComisiones(activeProfile.selectedComisiones);
-    }
-  };
+			if (user) {
+				updateUserData(user.id, getStorageKey(), {
+					selections,
+					selectedComisiones,
+				});
+			}
+		}
+	}, [selections, selectedComisiones, loading, id, activeProfileId]);
 
-  // Save selections to localStorage whenever they change
-  useEffect(() => {
-    if (!loading && id && !isFetchingUser) {
-      const updatedData = CalendarStorage.updateProfile(activeProfileId, {
-        selections,
-        selectedComisiones,
-      });
-      setProfiles(updatedData.profiles);
+	const uniqueSubjects: Record<string, {title: string; comisiones: string[]}> =
+		{};
 
-      if (user) {
-        updateUserData(user.id, getStorageKey(), {
-          selections,
-          selectedComisiones,
-        });
-      }
-    }
-  }, [selections, selectedComisiones, loading, id, activeProfileId]);
+	subjectEvents.forEach((event) => {
+		if (!uniqueSubjects[event.title]) {
+			uniqueSubjects[event.title] = {
+				title: event.title,
+				comisiones: [],
+			};
+		}
 
-  if (isLoading || loading || isFetchingUser) {
-    return <div>Loading...</div>;
-  }
+		event.extendedProps.comisiones.forEach((comision) => {
+			if (!uniqueSubjects[event.title].comisiones.includes(comision)) {
+				uniqueSubjects[event.title].comisiones.push(comision);
+			}
+		});
+	});
 
-  if (!subjectsData || !id) {
-    return null;
-  }
+	useEffect(() => {
+		const newSelectedComisiones = {...selectedComisiones};
+		Object.entries(uniqueSubjects).forEach(([title, subject]) => {
+			if (!newSelectedComisiones[title] && subject.comisiones.length > 0) {
+				newSelectedComisiones[title] = subject.comisiones[0];
+			}
+		});
+		setSelectedComisiones(newSelectedComisiones);
+	}, [uniqueSubjects]);
 
-  const careerData = subjectsData.find((c) => c.id === id);
-  if (!careerData) {
-    return null;
-  }
+	if (isLoading || loading || isFetchingUser) {
+		return <div>Loading...</div>;
+	}
 
-  // Create a list of unique subjects with their comisiones
-  const uniqueSubjects: Record<
-    string,
-    { title: string; comisiones: string[] }
-  > = {};
+	if (!subjectsData || !id) {
+		return null;
+	}
 
-  subjectEvents.forEach((event) => {
-    if (!uniqueSubjects[event.title]) {
-      uniqueSubjects[event.title] = {
-        title: event.title,
-        comisiones: [],
-      };
-    }
+	const careerData = subjectsData.find((c) => c.id === id);
+	if (!careerData) {
+		return null;
+	}
 
-    // Add unique comisiones to the list
-    event.extendedProps.comisiones.forEach((comision) => {
-      if (!uniqueSubjects[event.title].comisiones.includes(comision)) {
-        uniqueSubjects[event.title].comisiones.push(comision);
-      }
-    });
-  });
+	const handleSubjectToggle = (subjectTitle: string) => {
+		const comision = selectedComisiones[subjectTitle];
+		const key = `${subjectTitle}_${comision}`;
 
-  const handleSubjectToggle = (subjectTitle: string) => {
-    const comision = selectedComisiones[subjectTitle];
-    const key = `${subjectTitle}_${comision}`;
+		setSelections((prev) => ({
+			...prev,
+			[key]: !prev[key],
+		}));
+	};
 
-    setSelections((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
+	const handleComisionChange = (subjectTitle: string, comision: string) => {
+		const oldComision = selectedComisiones[subjectTitle];
+		const oldKey = `${subjectTitle}_${oldComision}`;
+		const newKey = `${subjectTitle}_${comision}`;
+		const wasSelected = selections[oldKey] || false;
 
-  const handleComisionChange = (subjectTitle: string, comision: string) => {
-    const oldComision = selectedComisiones[subjectTitle];
-    const oldKey = `${subjectTitle}_${oldComision}`;
-    const newKey = `${subjectTitle}_${comision}`;
-    const wasSelected = selections[oldKey] || false;
+		const newSelections = {...selections};
 
-    // Create a new selections object removing any other comisiones of this subject
-    const newSelections = { ...selections };
+		if (oldKey in newSelections) {
+			delete newSelections[oldKey];
+		}
 
-    // Remove the selection state for the old comision
-    if (oldKey in newSelections) {
-      delete newSelections[oldKey];
-    }
+		newSelections[newKey] = wasSelected;
 
-    // Set the new comision's selection state to match the old one
-    newSelections[newKey] = wasSelected;
+		setSelectedComisiones((prev) => ({
+			...prev,
+			[subjectTitle]: comision,
+		}));
 
-    // Update the selected comision
-    setSelectedComisiones((prev) => ({
-      ...prev,
-      [subjectTitle]: comision,
-    }));
+		setSelections(newSelections);
+	};
 
-    // Update all selections
-    setSelections(newSelections);
-  };
+	const filteredEvents: CalendarDisplayEvent[] = [];
 
-  // Filter events based on selections
-  const filteredEvents: CalendarDisplayEvent[] = [];
+	subjectEvents.forEach((event) => {
+		const selectedComision = selectedComisiones[event.title];
 
-  subjectEvents.forEach((event) => {
-    // Check if any comision of this subject is selected
-    const selectedComision = selectedComisiones[event.title];
+		if (selectedComision) {
+			if (event.extendedProps.comisiones.includes(selectedComision)) {
+				const key = `${event.title}_${selectedComision}`;
 
-    if (selectedComision) {
-      // Only process events that contain the selected comision
-      if (event.extendedProps.comisiones.includes(selectedComision)) {
-        const key = `${event.title}_${selectedComision}`;
+				if (selections[key]) {
+					filteredEvents.push({
+						title: `${event.title} - ${selectedComision}`,
+						daysOfWeek: event.daysOfWeek,
+						startTime: event.startTime,
+						endTime: event.endTime,
+						extendedProps: {
+							comision: selectedComision,
+							comisiones: event.extendedProps.comisiones,
+						},
+						color: generateUniqueColor(event.title),
+					});
+				}
+			}
+		}
+	});
 
-        // Check if this specific comision is selected
-        if (selections[key]) {
-          // Create a new event for this specific comision
-          filteredEvents.push({
-            title: `${event.title} - ${selectedComision}`,
-            daysOfWeek: event.daysOfWeek,
-            startTime: event.startTime,
-            endTime: event.endTime,
-            extendedProps: {
-              comision: selectedComision,
-              comisiones: event.extendedProps.comisiones,
-            },
-            color: generateUniqueColor(event.title),
-          });
-        }
-      }
-    }
-  });
+	const handleBack = () => {
+		navigate(`/materias/${id}`);
+	};
 
-  const handleBack = () => {
-    navigate(`/materias/${id}`);
-  };
+	return (
+		<Container maxW="container.xl">
+			<Navbar
+				customTitle="Horario Semanal"
+				profiles={profiles}
+				selectedProfile={activeProfileId}
+				onProfileChange={handleProfileChange}
+				onCreateProfile={handleCreateProfile}
+				onDeleteProfile={handleDeleteProfile}
+			/>
 
-  return (
-    <Container maxW="container.xl">
-      <Navbar
-        customTitle="Horario Semanal"
-        profiles={profiles}
-        selectedProfile={activeProfileId}
-        onProfileChange={handleProfileChange}
-        onCreateProfile={handleCreateProfile}
-        onDeleteProfile={handleDeleteProfile}
-      />
+			<Box
+				position="relative"
+				minH="100vh"
+				display="flex"
+				flexDirection="column"
+				py={4}
+			>
+				<Box p={4} flex="1" display="flex">
+					<Box
+						w="300px"
+						bg="gray.50"
+						p={4}
+						borderRadius="md"
+						boxShadow="md"
+						mr={4}
+						overflowY="auto"
+						maxH="calc(100vh - 100px)"
+					>
+						<Heading as="h3" size="md" mb={4}>
+							Mis Materias
+						</Heading>
+						<Input
+							placeholder="Buscar materia..."
+							mb={4}
+							size="sm"
+							variant="subtle"
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+						/>
 
-      <Box
-        position="relative"
-        minH="100vh"
-        display="flex"
-        flexDirection="column"
-        py={4}
-      >
-        <Box p={4} flex="1" display="flex">
-          {/* Sidebar */}
-          <Box
-            w="300px"
-            bg="gray.50"
-            p={4}
-            borderRadius="md"
-            boxShadow="md"
-            mr={4}
-            overflowY="auto"
-            maxH="calc(100vh - 100px)"
-          >
-            <Heading as="h3" size="md" mb={4}>
-              Mis Materias
-            </Heading>
-            <VStack align="start" gap={3}>
-              {Object.entries(uniqueSubjects).map(([title, subject]) => {
-                // Initialize the selected comision if not already set
-                if (
-                  !selectedComisiones[title] &&
-                  subject.comisiones.length > 0
-                ) {
-                  selectedComisiones[title] = subject.comisiones[0];
-                }
+						<VStack align="start" gap={3}>
+							<AnimatePresence>
+								{Object.entries(uniqueSubjects).filter(([title]) =>
+									title
+										.toLowerCase()
+										.includes(debouncedSearchTerm.toLowerCase())
+								).length === 0 ? (
+									<motion.div
+										key="no-results"
+										initial={{opacity: 0, y: 20}}
+										animate={{opacity: 1, y: 0}}
+										exit={{opacity: 0, y: -20}}
+									>
+										<Text color="gray.500" textAlign="center" mt={4}>
+											No se encontraron materias que coincidan con "
+											{debouncedSearchTerm}"
+										</Text>
+									</motion.div>
+								) : (
+									Object.entries(uniqueSubjects)
+										.filter(([title]) =>
+											title
+												.toLowerCase()
+												.includes(debouncedSearchTerm.toLowerCase())
+										)
+										.map(([title, subject]) => {
+											const selectedComision =
+												selectedComisiones[title] ||
+												subject.comisiones[0] ||
+												"";
+											const selectionKey = `${title}_${selectedComision}`;
+											const isSelected = selections[selectionKey] || false;
 
-                const selectedComision = selectedComisiones[title] || "";
-                const selectionKey = `${title}_${selectedComision}`;
-                const isSelected = selections[selectionKey] || false;
+											return (
+												<motion.div
+													key={title}
+													layout
+													initial={{opacity: 0, y: 20}}
+													animate={{opacity: 1, y: 0}}
+													exit={{opacity: 0, y: -20}}
+													transition={{duration: 0.2}}
+													style={{width: "100%"}}
+												>
+													<Box
+														width="100%"
+														p={2}
+														borderWidth="1px"
+														borderRadius="md"
+													>
+														<Flex align="center" mb={2}>
+															<BasicCheckbox
+																checked={isSelected}
+																onCheckedChange={() =>
+																	handleSubjectToggle(title)
+																}
+																label=""
+															/>
+															<Text fontWeight="bold" ml={2}>
+																{title}
+															</Text>
+														</Flex>
+														<select
+															value={selectedComision}
+															onChange={(e) =>
+																handleComisionChange(title, e.target.value)
+															}
+															style={{
+																width: "100%",
+																padding: "0.4rem",
+																fontSize: "0.875rem",
+																borderRadius: "0.375rem",
+																backgroundColor: "white",
+															}}
+														>
+															{subject.comisiones.map((comision) => (
+																<option key={comision} value={comision}>
+																	{comision}
+																</option>
+															))}
+														</select>
+													</Box>
+												</motion.div>
+											);
+										})
+								)}
+							</AnimatePresence>
+						</VStack>
+					</Box>
 
-                return (
-                  <Box
-                    key={title}
-                    width="100%"
-                    p={2}
-                    borderWidth="1px"
-                    borderRadius="md"
-                  >
-                    <Flex align="center" mb={2}>
-                      <BasicCheckbox
-                        checked={isSelected}
-                        onCheckedChange={() => handleSubjectToggle(title)}
-                        label=""
-                      />
-                      <Text fontWeight="bold" ml={2}>
-                        {title}
-                      </Text>
-                    </Flex>
-                    <select
-                      value={selectedComision}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        handleComisionChange(title, e.target.value)
-                      }
-                      style={{
-                        width: "100%",
-                        padding: "0.4rem",
-                        fontSize: "0.875rem",
-                        borderRadius: "0.375rem",
-                        backgroundColor: "white",
-                      }}
-                    >
-                      {subject.comisiones.map((comision) => (
-                        <option key={comision} value={comision}>
-                          {comision}
-                        </option>
-                      ))}
-                    </select>
-                  </Box>
-                );
-              })}
-            </VStack>
-          </Box>
+					<Box flex="1">
+						<HStack justify="flex-start" mb={4}>
+							<Button onClick={handleBack} variant="outline">
+								<Box mr={2} display="inline-flex">
+									<RiArrowLeftLine />
+								</Box>
+								Volver
+							</Button>
+						</HStack>
 
-          {/* Calendar */}
-          <Box flex="1">
-            <HStack justify="flex-start" mb={4}>
-              <Button onClick={handleBack} variant="outline">
-                <Box mr={2} display="inline-flex">
-                  <RiArrowLeftLine />
-                </Box>
-                Volver
-              </Button>
-            </HStack>
-
-            <Box
-              bg="white"
-              borderRadius="md"
-              boxShadow="md"
-              p={2}
-              h="calc(100vh - 200px)"
-            >
-              <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="timeGridWeek"
-                headerToolbar={{
-                  left: "prev,next today",
-                  center: "title",
-                  right: "dayGridMonth,timeGridWeek,timeGridDay",
-                }}
-                locale={esLocale}
-                slotMinTime="08:00:00"
-                slotMaxTime="22:00:00"
-                allDaySlot={false}
-                height="100%"
-                events={filteredEvents}
-              />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    </Container>
-  );
+						<Box
+							bg="white"
+							borderRadius="md"
+							boxShadow="md"
+							p={2}
+							h="calc(100vh - 200px)"
+						>
+							<FullCalendar
+								plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+								initialView="timeGridWeek"
+								headerToolbar={{
+									left: "prev,next today",
+									center: "title",
+									right: "dayGridMonth,timeGridWeek,timeGridDay",
+								}}
+								locale={esLocale}
+								slotMinTime="08:00:00"
+								slotMaxTime="22:00:00"
+								allDaySlot={false}
+								height="100%"
+								events={filteredEvents}
+							/>
+						</Box>
+					</Box>
+				</Box>
+			</Box>
+		</Container>
+	);
 };
