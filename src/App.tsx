@@ -1,62 +1,88 @@
-import { Box, Text, VStack, Heading, Container, Center, Flex } from "@chakra-ui/react";
+import {
+   Box,
+   Text,
+   VStack,
+   Heading,
+   Container,
+   Center,
+   Flex,
+   Button,
+} from "@chakra-ui/react";
 import { carreras } from "./pages/materias/utils/jsonDbs";
 import { useSubjects } from "./context/SubjectsContext";
 import { CareerCard } from "./components/CareerCard";
 import { useEffect } from "react";
 import { Navbar } from "./components/Navbar";
 import { useUser } from "./context/UserContext";
+import { Link } from "react-router";
 
 export default function Page() {
-	const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
-	const { isFetchingUser } = useUser();
+   const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
+   const { isFetchingUser } = useUser();
 
-	useEffect(() => {
-		loadCareersProgress();
-	}, []);
+   useEffect(() => {
+      loadCareersProgress();
+   }, []);
 
-	if (isLoading || isFetchingUser) {
-		return (
-			<Center h="100vh">
-				<VStack gap="2">
-					<Heading size="7xl" color="blue.600">
-						MyCareer
-					</Heading>
-					<Text>Cargando carreras...</Text>
-				</VStack>
-			</Center>
-		);
-	}
+   if (isLoading || isFetchingUser) {
+      return (
+         <Center h="100vh">
+            <VStack gap="2">
+               <Heading size="7xl" color="blue.600">
+                  MyCareer
+               </Heading>
+               <Text>Cargando carreras...</Text>
+            </VStack>
+         </Center>
+      );
+   }
 
-	return (
-		<Flex minH="100vh" direction="column">
-			<Navbar />
-			<Container maxW="container.lg" py={20} flex="1">
-				<Center>
-					<VStack gap={8} align="center">
-						<VStack gap={2} align="center">
-							<Heading size="7xl" color="blue.600" textAlign="center">
-								MyCareer
-							</Heading>
-							<Text fontSize="2xl" color="gray.600" textAlign="center">
-								Tu progreso académico en un solo lugar
-							</Text>
-						</VStack>
+   return (
+      <Flex minH="100vh" direction="column">
+         <Navbar />
+         <Container maxW="container.lg" py={20} flex="1">
+            <Center>
+               <VStack gap={8} align="center">
+                  <VStack gap={2} align="center">
+                     <Heading size="7xl" color="blue.600" textAlign="center">
+                        MyCareer
+                     </Heading>
+                     <Text fontSize="2xl" color="gray.600" textAlign="center">
+                        Tu progreso académico en un solo lugar
+                     </Text>
+                  </VStack>
 
-						<VStack gap={4} width="full" maxW="600px" align="center">
-							{carreras.map((carrera) => {
-								const careerProgress = subjectsData.find(c => c.id === carrera.id);
-								return (
-									<CareerCard 
-										key={carrera.id} 
-										carrera={carrera} 
-										careerProgress={careerProgress} 
-									/>
-								);
-							})}
-						</VStack>
-					</VStack>
-				</Center>
-			</Container>
-		</Flex>
-	);
+                  <VStack gap={4} width="full" maxW="600px" align="center">
+                     {carreras.map((carrera) => {
+                        const careerProgress = subjectsData.find(
+                           (c) => c.id === carrera.id
+                        );
+                        return (
+                           <CareerCard
+                              key={carrera.id}
+                              carrera={carrera}
+                              careerProgress={careerProgress}
+                           />
+                        );
+                     })}
+                     <Link to={"/creator"}>
+                        <Button
+                           bg={"gray.200"}
+                           borderColor={"gray.300"}
+                           color={"black"}
+                           _hover={{
+                              transform: "translateY(-2px)",
+                              boxShadow: "md",
+                              borderColor: "gray.300",
+                           }}
+                        >
+                           Crear progreso
+                        </Button>
+                     </Link>
+                  </VStack>
+               </VStack>
+            </Center>
+         </Container>
+      </Flex>
+   );
 }

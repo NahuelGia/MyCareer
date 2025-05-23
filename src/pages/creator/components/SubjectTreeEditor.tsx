@@ -77,6 +77,7 @@ const SubjectTreeEditor = () => {
     handleNodeUpdate,
     handleCancel,
     handleSave,
+    setSelectedNode,
   } = useNodeManagement(nodes, setNodes);
 
   const { handleFileUpload, handleDownload } = useFileHandling(
@@ -131,8 +132,12 @@ const SubjectTreeEditor = () => {
     setEdges((eds) => addEdge(params, eds));
   };
 
+  const handleCreation = () => {
+    //TODO crear
+  }
+
   return (
-    <Box h="100vh" w="100vw" position="fixed" top={0} left={0} overflow="hidden">
+    <Box h="100vh" w="100vw" position="fixed" top={'4.5rem'} right={'0.5rem'} overflow="hidden">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -172,6 +177,9 @@ const SubjectTreeEditor = () => {
                   onChange={(e) => setCareerData((prev) => ({ ...prev, nombre: e.target.value }))}
                   placeholder="Nombre de la carrera"
                 />
+                <Button onClick={handleDownload} colorScheme="green" flex={1} disabled={!careerData.materias.length || !careerData.nombre 	}>
+                    Crear carrera
+                  </Button>
               </VStack>
             </Box>
 
@@ -193,7 +201,7 @@ const SubjectTreeEditor = () => {
             onDelete={() => {
               setNodes((nds) => nds.filter((node) => node.id !== selectedNode.id));
               setSelectedNode(null);
-              setOriginalNodeData(null);
+
             }}
           />
         )}

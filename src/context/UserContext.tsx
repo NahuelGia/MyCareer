@@ -20,12 +20,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
    useEffect(() => {
       const {
          data: { subscription },
-      } = supabase.auth.onAuthStateChange(async (event, session) => { // Esto hace que al cambiar de pestaña se vea refresque la pagina
-         const currentUser = session?.user ?? null;
-         setUser(currentUser);
-         setIsFetchingUser(false);
-
-         if (event === "SIGNED_OUT") {
+      } = supabase.auth.onAuthStateChange(async (event, session) => {
+         if (event === "INITIAL_SESSION") {
+            const currentUser = session?.user ?? null;
+            setUser(currentUser);
+            setIsFetchingUser(false);
+         } else if (event === "SIGNED_OUT") {
             carreras.forEach((c) => localStorage.removeItem(`${c.id}_data`));
          }
       });
