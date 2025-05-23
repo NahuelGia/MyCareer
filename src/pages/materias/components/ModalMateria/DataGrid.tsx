@@ -8,9 +8,10 @@ import {
 	Flex,
 	GridItem,
 } from "@chakra-ui/react";
-import {Selector} from "../AcademicTree/CustomNode/Selector";
+import {Selector} from "./Selector";
 import {ExpandableText} from "./ExpandableText";
 import {getNodeColor} from "../../helper/TreeChatHelper";
+import {DateSelector} from "./DateSelector";
 
 interface MateriaData {
 	label: string;
@@ -37,13 +38,16 @@ export default function DataGrid({
 	data: MateriaData;
 	nota: string;
 	setNota: (value: string) => void;
-	periodo: string;
-	setPeriodo: (value: string) => void;
+	periodo: {cuatrimestre: string};
+	setPeriodo: (value: {cuatrimestre: string}) => void;
+
 	comentarios: string;
 	setComentarios: (value: string) => void;
 }) {
 	const [touched, setTouched] = useState(false);
 	const isInvalid = touched && !/^[12]-\d{4}$/.test(periodo);
+	const [año, setAño] = useState<string>("");
+	const currentYear = new Date().getFullYear();
 
 	return (
 		<Flex gap={4} align={"start"} justify="center" direction="column">
@@ -93,24 +97,16 @@ export default function DataGrid({
 				<Label>Horas semanales:</Label>
 				<Value>{data.weeklyHours ?? "No disponible"}</Value>
 
-				<Label>Periodo:</Label>
+				<Label>Cuatrimestre:</Label>
 				<Value>
-					<Box>
-						<Input
-							variant="subtle"
-							value={periodo}
-							onChange={(e) => setPeriodo(e.target.value)}
-							onBlur={() => setTouched(true)}
-							placeholder="1-2025"
-							type="text"
-							disabled={status === "Pendiente"}
+					<Flex gap={2} alignItems="center" justifyContent="space-between">
+						<Text whiteSpace="nowrap">{periodo.cuatrimestre}</Text>
+						<DateSelector
+							onChangeStatus={(newStatus) => setPeriodo(newStatus)}
+							currentCuatrimestre={periodo.cuatrimestre}
+							disabled={status !== "Completada"}
 						/>
-						{isInvalid && (
-							<Text color="red.500" fontSize="sm" mt={1}>
-								El formato debe ser: Cuatrimestre-Año
-							</Text>
-						)}
-					</Box>
+					</Flex>
 				</Value>
 
 				<Label>Módulo:</Label>
@@ -118,6 +114,22 @@ export default function DataGrid({
 					<Text whiteSpace="nowrap">
 						{data.degreeModule ?? "No disponible"}
 					</Text>
+				</Value>
+
+				<Label>Año:</Label>
+				<Value>
+					<Flex gap={2} alignItems="center" justifyContent="space-between">
+						<Input
+							variant={"subtle"}
+							value={año}
+							onChange={(e) => setAño(e.target.value)}
+							placeholder="Ejemplo: `${currentYear}`"
+							type="number"
+							min="0"
+							max="10"
+							disabled={status !== "Completada"}
+						/>
+					</Flex>
 				</Value>
 			</Grid>
 			<Box w="100%">
@@ -158,6 +170,6 @@ const Label = ({children}: {children: React.ReactNode}) => (
 
 const Value = ({children}: {children: React.ReactNode}) => (
 	<GridItem>
-		<Text fontFamily={"mono"}>{children}</Text>
+		<Text>{children}</Text>
 	</GridItem>
 );
