@@ -50,7 +50,13 @@ export default function DataGrid({
 	const currentYear = new Date().getFullYear();
 
 	return (
-		<Flex gap={4} align={"start"} justify="center" direction="column">
+		<Flex
+			gap={4}
+			align={"start"}
+			justify="center"
+			direction="column"
+			minW="600px"
+		>
 			<Grid
 				templateColumns="150px 1fr 150px 1fr"
 				rowGap={4}
@@ -58,23 +64,30 @@ export default function DataGrid({
 				width="100%"
 			>
 				<Label>Estado:</Label>
-				<Value>
-					<Flex alignItems="center" gap={2}>
-						<Text whiteSpace="nowrap">{status}</Text>
-						<Selector
-							onChangeStatus={(newStatus) => setStatus(newStatus)}
-							currentStatus={status}
-						/>
-					</Flex>
-				</Value>
 
-				<Label>Prerrequisitos:</Label>
 				<Value>
-					{data.prerequisites && data.prerequisites.length > 0 ? (
-						<ExpandableText text={data.prerequisites.join(", ")} />
-					) : (
-						"Ninguno"
-					)}
+					<Flex
+						gap={4}
+						alignItems="center"
+						justifyContent="space-between"
+						bg="#f4f4f5"
+						borderRadius="md"
+						p={3}
+						borderColor="gray.300"
+						borderWidth={1}
+						minW="200px"
+					>
+						<Text whiteSpace="nowrap" flex="1" textAlign="left">
+							{status}
+						</Text>
+
+						<Box ml={4} flexShrink={0}>
+							<Selector
+								onChangeStatus={(newStatus) => setStatus(newStatus)}
+								currentStatus={status}
+							/>
+						</Box>
+					</Flex>
 				</Value>
 
 				<Label>Créditos:</Label>
@@ -83,8 +96,11 @@ export default function DataGrid({
 				<Label>Nota:</Label>
 				<Value>
 					<Input
+						borderRadius={"md"}
+						borderColor="gray.300"
 						variant={"subtle"}
 						value={nota}
+						size={"lg"}
 						onChange={(e) => setNota(e.target.value)}
 						placeholder="Ejemplo: 8"
 						type="number"
@@ -99,12 +115,30 @@ export default function DataGrid({
 
 				<Label>Cuatrimestre:</Label>
 				<Value>
-					<Flex gap={2} alignItems="center" justifyContent="space-between">
-						<Text whiteSpace="nowrap">{periodo.cuatrimestre}</Text>
+					<Flex
+						gap={2}
+						alignItems="center"
+						justifyContent="space-between"
+						borderRadius="md"
+						bg={status === "Pendiente" ? "#f9f9fa" : "#f4f4f5"}
+						p={2}
+						borderColor={status === "Pendiente" ? "gray.200" : "gray.300"}
+						borderWidth={1}
+						opacity={status === "Pendiente" ? 0.7 : 1}
+						_hover={{
+							cursor: status === "Pendiente" ? "not-allowed" : "pointer",
+						}}
+					>
+						<Text
+							whiteSpace="nowrap"
+							color={status === "Pendiente" ? "gray.500" : "inherit"}
+						>
+							{periodo.cuatrimestre || "No aplica"}
+						</Text>
 						<DateSelector
 							onChangeStatus={(newStatus) => setPeriodo(newStatus)}
 							currentCuatrimestre={periodo.cuatrimestre}
-							disabled={status !== "Completada"}
+							disabled={status === "Pendiente"}
 						/>
 					</Flex>
 				</Value>
@@ -120,13 +154,16 @@ export default function DataGrid({
 				<Value>
 					<Flex gap={2} alignItems="center" justifyContent="space-between">
 						<Input
+							borderRadius={"md"}
+							borderColor="gray.300"
 							variant={"subtle"}
 							value={año}
+							size={"lg"}
 							onChange={(e) => setAño(e.target.value)}
-							placeholder="Ejemplo: `${currentYear}`"
+							placeholder={`Ejemplo: ${currentYear}`}
 							type="number"
-							min="0"
-							max="10"
+							min="2000"
+							max={currentYear}
 							disabled={status !== "Completada"}
 						/>
 					</Flex>
@@ -137,14 +174,14 @@ export default function DataGrid({
 					{"Comentarios:"}
 				</Text>
 				<Textarea
+					borderRadius={"md"}
+					borderColor="gray.300"
 					placeholder="Escribe aquí tus comentarios..."
 					size="md"
 					resize="none"
 					minW={"100%"}
 					minH="120px"
 					p={3}
-					borderRadius="md"
-					borderColor="gray.300"
 					_focus={{
 						borderColor: "blue.400",
 						boxShadow: "0 0 0 1px #63b3ed",
@@ -153,7 +190,7 @@ export default function DataGrid({
 						backgroundColor: "blue.400",
 						color: "white",
 					}}
-					bg={getNodeColor(status)}
+					bg={"gray.300"}
 					value={comentarios}
 					onChange={(e) => setComentarios(e.target.value)}
 				/>
