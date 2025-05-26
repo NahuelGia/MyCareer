@@ -42,7 +42,7 @@ export const Selector = ({onChangeStatus, currentStatus}: SelectorProps) => {
 		<Select.Root
 			positioning={{sameWidth: false}}
 			collection={states}
-			size="md"
+			size="lg"
 			value={[currentStatus]}
 			defaultValue={[currentStatus]}
 			onValueChange={(value) => {
@@ -60,6 +60,9 @@ export const Selector = ({onChangeStatus, currentStatus}: SelectorProps) => {
 						bg="white"
 						color="#09090b"
 						shadow={"sm"}
+						borderRadius="md"
+						borderWidth="1px"
+						borderColor="gray.300"
 						onClick={(e) => e.stopPropagation()}
 						className=".selector-wrapper"
 					>
