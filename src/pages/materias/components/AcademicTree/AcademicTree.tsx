@@ -15,7 +15,7 @@ import "@xyflow/react/dist/style.css";
 import CustomNode from "./CustomNode/CustomNode";
 import { useParams } from "react-router";
 
-import { Box, Checkbox, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { BasicCheckbox } from "../../../../components/Checkbox";
 import { DegreeModule } from "../../../../types/enums/degreeModule";
 import { useSubjects } from "@/context/SubjectsContext";

@@ -80,6 +80,10 @@ export const CalendarPage: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
 
+	if(id != 'TPI' && id != 'LI') {
+		return (<Text> Page not found</Text>)
+	}
+
 	const getStorageKey = () => {
 		if (!id) return STORAGE_KEY_PREFIX;
 		return `${STORAGE_KEY_PREFIX}_${id}`;

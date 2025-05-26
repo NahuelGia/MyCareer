@@ -8,7 +8,6 @@ import {
    Flex,
    Button,
 } from "@chakra-ui/react";
-import { carreras } from "./pages/materias/utils/jsonDbs";
 import { useSubjects } from "./context/SubjectsContext";
 import { CareerCard } from "./components/CareerCard";
 import { useEffect } from "react";
@@ -17,8 +16,8 @@ import { useUser } from "./context/UserContext";
 import { Link } from "react-router";
 
 export default function Page() {
-   const { subjectsData, isLoading, loadCareersProgress } = useSubjects();
-   const { isFetchingUser } = useUser();
+   const { subjectsData, isLoading, loadCareersProgress, carreras } = useSubjects();
+   const { isFetchingUser, user } = useUser();
 
    useEffect(() => {
       loadCareersProgress();
@@ -53,32 +52,39 @@ export default function Page() {
                   </VStack>
 
                   <VStack gap={4} width="full" maxW="600px" align="center">
-                     {carreras.map((carrera) => {
-                        const careerProgress = subjectsData.find(
-                           (c) => c.id === carrera.id
-                        );
-                        return (
-                           <CareerCard
-                              key={carrera.id}
-                              carrera={carrera}
-                              careerProgress={careerProgress}
-                           />
-                        );
-                     })}
-                     <Link to={"/creator"}>
-                        <Button
-                           bg={"gray.200"}
-                           borderColor={"gray.300"}
-                           color={"black"}
-                           _hover={{
-                              transform: "translateY(-2px)",
-                              boxShadow: "md",
-                              borderColor: "gray.300",
-                           }}
-                        >
-                           Crear progreso
-                        </Button>
-                     </Link>
+                     <Box maxHeight="50vh" overflowY="auto" pr={2} pt={2} flexShrink={0}>
+                        <VStack>
+                           {Object.keys(carreras).map((key) => {
+                              const careerProgress = subjectsData.find(
+                                 (c) => c.id === key
+                              );
+                              const carrera = carreras[key];
+                              return (
+                                 <CareerCard
+                                    key={carrera.id}
+                                    carrera={carrera}
+                                    careerProgress={careerProgress}
+                                 />
+                              );
+                           })}
+                        </VStack>
+                     </Box>
+                     {user && (
+                        <Link to={"/creator"}>
+                           <Button
+                              bg={"gray.200"}
+                              borderColor={"gray.300"}
+                              color={"black"}
+                              _hover={{
+                                 transform: "translateY(-2px)",
+                                 boxShadow: "md",
+                                 borderColor: "gray.300",
+                              }}
+                           >
+                              Crear progreso
+                           </Button>
+                        </Link>
+                     )}
                   </VStack>
                </VStack>
             </Center>
