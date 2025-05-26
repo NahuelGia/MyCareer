@@ -48,6 +48,7 @@ export default function DataGrid({
 	const isInvalid = touched && !/^[12]-\d{4}$/.test(periodo);
 	const [año, setAño] = useState<string>("");
 	const currentYear = new Date().getFullYear();
+	const [notaError, setNotaError] = useState("");
 
 	return (
 		<Flex
@@ -91,27 +92,81 @@ export default function DataGrid({
 				</Value>
 
 				<Label>Créditos:</Label>
-				<Value>{data.credits ?? "No disponible"}</Value>
+				<Value>
+					<Box
+						borderRadius={"md"}
+						borderColor="gray.300"
+						borderWidth={1}
+						bg="#f4f4f5"
+						p={3}
+						minH="48px"
+						display="flex"
+						alignItems="center"
+					>
+						<Text>{data.credits ?? "No disponible"}</Text>
+					</Box>
+				</Value>
 
 				<Label>Nota:</Label>
 				<Value>
 					<Input
 						borderRadius={"md"}
-						borderColor="gray.300"
+						borderColor={notaError ? "red.300" : "gray.300"}
 						variant={"subtle"}
 						value={nota}
 						size={"lg"}
-						onChange={(e) => setNota(e.target.value)}
+						onChange={(e) => {
+							const value = e.target.value;
+							setNota(value);
+
+							// Validate the input
+							if (value === "") {
+								setNotaError("");
+							} else {
+								const numValue = parseFloat(value);
+								if (numValue < 1) {
+									setNotaError("La nota debe ser mayor o igual a 1");
+								} else if (numValue > 10) {
+									setNotaError("La nota no puede ser mayor a 10");
+								} else {
+									setNotaError("");
+								}
+							}
+						}}
 						placeholder="Ejemplo: 8"
 						type="number"
-						min="0"
+						min="1"
 						max="10"
 						disabled={status !== "Completada"}
 					/>
+					{notaError && (
+						<Text
+							color="red.500"
+							fontSize="sm"
+							mt={1}
+							whiteSpace="nowrap"
+							position={"absolute"}
+						>
+							{notaError}
+						</Text>
+					)}
 				</Value>
 
 				<Label>Horas semanales:</Label>
-				<Value>{data.weeklyHours ?? "No disponible"}</Value>
+				<Value>
+					<Box
+						borderRadius={"md"}
+						borderColor="gray.300"
+						borderWidth={1}
+						bg="#f4f4f5"
+						p={3}
+						minH="48px"
+						display="flex"
+						alignItems="center"
+					>
+						<Text>{data.weeklyHours ?? "No disponible"}</Text>
+					</Box>
+				</Value>
 
 				<Label>Cuatrimestre:</Label>
 				<Value>
@@ -145,9 +200,20 @@ export default function DataGrid({
 
 				<Label>Módulo:</Label>
 				<Value>
-					<Text whiteSpace="nowrap">
-						{data.degreeModule ?? "No disponible"}
-					</Text>
+					<Box
+						borderRadius={"md"}
+						borderColor="gray.300"
+						borderWidth={1}
+						bg="#f4f4f5"
+						p={3}
+						minH="48px"
+						display="flex"
+						alignItems="center"
+					>
+						<Text whiteSpace="nowrap">
+							{data.degreeModule ?? "No disponible"}
+						</Text>
+					</Box>
 				</Value>
 
 				<Label>Año:</Label>
