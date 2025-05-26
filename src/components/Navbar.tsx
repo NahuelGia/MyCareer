@@ -1,34 +1,17 @@
-import {
-	Box,
-	Flex,
-	Text,
-	Link,
-	Spinner,
-	Button,
-	IconButton,
-} from "@chakra-ui/react";
-import {
-	Modal,
-	ModalOverlay,
-	ModalContent,
-	ModalHeader,
-	ModalBody,
-	ModalCloseButton,
-} from "@chakra-ui/modal";
+import {Box, Flex, Text, Link, Spinner, Button} from "@chakra-ui/react";
+
 import {useLocation, useParams} from "react-router";
 import {useSubjects} from "../context/SubjectsContext";
 import {ProfileButton} from "./ProfileButton";
 import {useSubjectsActions} from "../hooks/useSubjectsActions";
-import Check from "./images/check.svg";
-import Save from "./images/save.svg";
-import React, {useState} from "react";
+
+import React, {useState, useEffect} from "react";
 import {Select as ChakraSelect} from "@chakra-ui/select";
 import {Popover} from "@chakra-ui/react";
 import {useToast} from "@chakra-ui/toast";
 import {CreateProfileModal} from "../pages/calendario/components/ProfileSelector/CreateProfileModal";
 import {DeleteProfileModal} from "../pages/calendario/components/ProfileSelector/DeleteProfileModal";
 import {CalendarProfile} from "../pages/calendario/utils/storage";
-import { SavingIndicator } from "./SavingIndicator";
 
 interface NavbarProps {
 	customTitle?: string;
@@ -50,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 	const location = useLocation();
 	const {id} = useParams();
 	const {subjectsData} = useSubjects();
-	const {isSaving, saved, lastTime} = useSubjectsActions();
+	const {isSaving, saved} = useSubjectsActions();
 
 	let screenDescription = "Home";
 
@@ -71,6 +54,20 @@ export const Navbar: React.FC<NavbarProps> = ({
 	const [isDeleteOpen, setDeleteOpen] = useState(false);
 	const [profileToDelete, setProfileToDelete] = useState("");
 	const toast = useToast();
+	const [showSaved, setShowSaved] = useState(false);
+
+	useEffect(() => {
+		if (saved) {
+			setShowSaved(true);
+			const timer = setTimeout(() => {
+				setShowSaved(false);
+			}, 4000);
+
+			return () => clearTimeout(timer);
+		} else {
+			setShowSaved(false);
+		}
+	}, [saved]);
 
 	const handleProfileChangeLocal = (e: any) => {
 		onProfileChange && onProfileChange(e.target.value);
@@ -114,8 +111,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 			bg={location.pathname === "/" ? "transparent" : "white"}
 			boxShadow={location.pathname === "/" ? "none" : "sm"}
 		>
-			<Flex justify="space-between" align="center">
-				<Box>
+			<Flex justify="space-between" align="center" position="relative">
+				<Box flex="1">
 					{location.pathname !== "/" && (
 						<Link href="/" _hover={{textDecoration: "none"}}>
 							<Text fontWeight="bold" fontSize="xl" color="blue.600">
@@ -124,29 +121,40 @@ export const Navbar: React.FC<NavbarProps> = ({
 						</Link>
 					)}
 				</Box>
-				<Text fontWeight="medium" fontSize="lg" color="gray.800">
-					{customTitle || screenDescription}
-				</Text>
 
-				{location.pathname === "/" && <Box flex="1" />}
+				<Box
+					position="absolute"
+					left="50%"
+					transform="translateX(-50%)"
+					zIndex="1"
+				>
+					<Text
+						fontWeight="medium"
+						fontSize="lg"
+						color="gray.800"
+						textAlign="center"
+					>
+						{customTitle || screenDescription}
+					</Text>
+				</Box>
 
-				<Flex align="center">
-					{isSaving && (
-						<Flex flexDirection="row" gap={2} marginRight={2}>
-							<img
-								src={Save}
-								className={"max-h-[30px] min-h-[30px] self-start"}
-							/>
-							<Spinner size="sm" color="#000000" />
+				<Flex align="center" flex="1" justify="flex-end">
+					{location.pathname !== "/" && (
+						<Flex align="center" gap={2} mr={4}>
+							{isSaving ? (
+								<>
+									<Spinner size="sm" color="gray.500" />
+									<Text fontSize="sm" color="gray.600">
+										Guardando...
+									</Text>
+								</>
+							) : showSaved ? (
+								<Text fontSize="sm" color="gray.500">
+									Guardado
+								</Text>
+							) : null}
 						</Flex>
 					)}
-
-					<Flex align="center" gap={3}>
-						{/* Indicador de guardado embellecido */}
-						{location.pathname !== "/" && (
-							// SavingIndicator TODO 
-						)}
-					</Flex>
 
 					{location.pathname.includes("calendar") &&
 						profiles &&
