@@ -1,9 +1,10 @@
 import { toaster } from "@/components/ui/toaster";
-import { carreras } from "@/pages/materias/utils/jsonDbs";
+import { CareerData } from "@/pages/creator/components/SubjectTreeEditor";
 import { CareerDataName } from "@/types/entities/CareerData";
 import { UserData } from "@/types/entities/UserData";
 import { SubjectData, SubjectsData } from "@/types/subjects";
 import { createClient } from "@supabase/supabase-js";
+import { use } from "react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -63,8 +64,11 @@ export const getUserTreeData = async (
       await supabase.from("user_data").select("data").eq("id", userId).single()
    ).data?.data;
 
-   carreras.forEach((carrera) => {
-      subjectsData[carrera.id] = userData?.[`${carrera.id}_data`] ?? null;
+   const carreras = await getCarreras(userId);
+
+   Object.keys(carreras).forEach((key) => {
+      const data = userData?.[`${key}_data`];
+      subjectsData[key] = data || carreras[key];
    });
 
    return subjectsData;
@@ -105,4 +109,89 @@ export const loadUserCalendarData = async (userId: string, dataKey: string) => {
    const calendarData = userData[dataKey];
    localStorage.setItem(dataKey, JSON.stringify(calendarData));
    return calendarData;
+};
+
+export const getCarreras = async (userId?: string) => {
+   const queryResult = await supabase
+      .from("career_data")
+      .select("data")
+      .eq("data_name", CareerDataName.ACADEMIC_TREE);
+   let response = queryResult.data ? queryResult.data[0].data : null;
+
+   if (userId) {
+      const customCarrerasDataRes = (
+         await supabase
+            .from("custom_carreras")
+            .select("academic_tree")
+            .eq("user_id", userId)
+      ).data;
+
+      const customCarrerasData =
+         customCarrerasDataRes && customCarrerasDataRes[0]?.academic_tree;
+
+      response = {
+         ...response,
+         ...customCarrerasData,
+      };
+   }
+   return response || [];
+};
+
+export const createCustomCarrera = async (userId: string, carreraData: CareerData) => {
+   let newCarrera: Record<string, CareerData> = {};
+
+   const response = (
+      await supabase.from("custom_carreras").select("academic_tree").eq("user_id", userId)
+   ).data;
+   const customCareers = response && response[0] ? response[0].academic_tree : null;
+
+   if (customCareers) {
+      newCarrera = {
+         ...customCareers,
+         [carreraData.id]: carreraData,
+      };
+   }
+
+   newCarrera[carreraData.id] = carreraData;
+
+   await supabase
+      .from("custom_carreras")
+      .upsert({ user_id: userId, academic_tree: newCarrera }, { onConflict: "user_id" });
+};
+
+export const getUsedCarreraNames = async (userId: string) => {
+   const customResponse = (
+      await supabase.from("custom_carreras").select("academic_tree").eq("user_id", userId)
+   ).data;
+
+   const defaultReponse = await supabase
+      .from("career_data")
+      .select("data")
+      .eq("data_name", CareerDataName.ACADEMIC_TREE);
+
+   const customCareers =
+      customResponse && customResponse[0] ? customResponse[0].academic_tree : null;
+   const defaultCareers = defaultReponse.data ? defaultReponse.data[0].data : null;
+
+   const usedNames: string[] = Object.keys(customCareers).map(
+      (key) => customCareers[key].id
+   );
+   Object.keys(defaultCareers).forEach((key) => {
+      const carrera = defaultCareers[key];
+      usedNames.push(carrera.id);
+      usedNames.push(carrera.nombre.toUpperCase());
+   });
+
+   return usedNames;
+};
+
+export const getUserCustomCarrera = async (careerId: string, userId: string) => {
+   const customResponse = (
+      await supabase.from("custom_carreras").select("academic_tree").eq("user_id", userId)
+   ).data;
+
+   const customCareers =
+      customResponse && customResponse[0] ? customResponse[0].academic_tree : null;
+
+   return customCareers[careerId];
 };

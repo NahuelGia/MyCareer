@@ -71,5 +71,6 @@ export const useNodeManagement = (nodes: Node[], setNodes: ReturnType<typeof use
     handleNodeUpdate,
     handleCancel,
     handleSave,
+    setSelectedNode
   };
 }; 
