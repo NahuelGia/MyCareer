@@ -16,7 +16,6 @@ import {
 interface SelectorProps {
 	onChangeStatus: (status: string) => void;
 	currentStatus: string;
-	disabled: boolean
 }
 
 const ButtonSelector = () => {
@@ -38,19 +37,14 @@ const ButtonSelector = () => {
 	);
 };
 
-
-
-export const Selector = ({ onChangeStatus, currentStatus, disabled }: SelectorProps) => {
-
-return (
+export const Selector = ({onChangeStatus, currentStatus}: SelectorProps) => {
+	return (
 		<Select.Root
 			positioning={{sameWidth: false}}
 			collection={states}
 			size="md"
 			value={[currentStatus]}
 			defaultValue={[currentStatus]}
-			disabled={disabled}
-
 			onValueChange={(value) => {
 				onChangeStatus(value.value[0]);
 			}}
