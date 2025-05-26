@@ -13,21 +13,18 @@ import {
 	Input,
 } from "@chakra-ui/react";
 import {RiArrowLeftLine} from "react-icons/ri";
-import FullCalendar from "@fullcalendar/react";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import {useNavigate, useParams} from "react-router";
 import {Navbar} from "../../../../components/Navbar";
 import {useSubjects} from "../../../../context/SubjectsContext";
 import {BasicCheckbox} from "../../../../components/Checkbox";
 import tpiData from "../../utils/jsonDbs/tpi.json";
-import {CalendarStorageService} from "../../../../services/storage/calendar-storage";
+
 import {useUser} from "@/context/UserContext";
 import {loadUserCalendarData, updateUserData} from "@/lib/supabaseClient";
 import {CalendarStorage, CalendarProfile} from "../../utils/storage";
-import {ProfileSelector} from "../ProfileSelector/ProfileSelector";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import esLocale from "@fullcalendar/core/locales/es";
+
+import {GenericWeeklyCalendar} from "./GenericWeeklyCalendar";
+import {DeleteProfileModal} from "../ProfileSelector/DeleteProfileModal";
 
 interface CalendarEvent {
 	title: string;
@@ -80,8 +77,8 @@ export const CalendarPage: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
 
-	if(id != 'TPI' && id != 'LI') {
-		return (<Text> Page not found</Text>)
+	if (id != "TPI" && id != "LI") {
+		return <Text> Page not found</Text>;
 	}
 
 	const getStorageKey = () => {
@@ -394,6 +391,7 @@ export const CalendarPage: React.FC = () => {
 														p={2}
 														borderWidth="1px"
 														borderRadius="md"
+														bg={"#f7fafc"}
 													>
 														<Flex align="center" mb={2}>
 															<BasicCheckbox
@@ -403,7 +401,7 @@ export const CalendarPage: React.FC = () => {
 																}
 																label=""
 															/>
-															<Text fontWeight="bold" ml={2}>
+															<Text fontWeight="semibold" ml={2}>
 																{title}
 															</Text>
 														</Flex>
@@ -437,7 +435,7 @@ export const CalendarPage: React.FC = () => {
 
 					<Box flex="1">
 						<HStack justify="flex-start" mb={4}>
-							<Button onClick={handleBack} variant="outline">
+							<Button onClick={handleBack} variant="outline" bg={"#fafafa"}>
 								<Box mr={2} display="inline-flex">
 									<RiArrowLeftLine />
 								</Box>
@@ -445,29 +443,7 @@ export const CalendarPage: React.FC = () => {
 							</Button>
 						</HStack>
 
-						<Box
-							bg="white"
-							borderRadius="md"
-							boxShadow="md"
-							p={2}
-							h="calc(100vh - 200px)"
-						>
-							<FullCalendar
-								plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-								initialView="timeGridWeek"
-								headerToolbar={{
-									left: "prev,next today",
-									center: "title",
-									right: "dayGridMonth,timeGridWeek,timeGridDay",
-								}}
-								locale={esLocale}
-								slotMinTime="08:00:00"
-								slotMaxTime="22:00:00"
-								allDaySlot={false}
-								height="100%"
-								events={filteredEvents}
-							/>
-						</Box>
+						<GenericWeeklyCalendar events={filteredEvents} />
 					</Box>
 				</Box>
 			</Box>
