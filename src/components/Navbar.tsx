@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 			py={location.pathname === "/" ? 2 : 3}
 			px={6}
 			bg={location.pathname === "/" ? "transparent" : "white"}
-			boxShadow={location.pathname === "/" ? "none" : "sm"}
+			boxShadow={location.pathname === "/" ? "none" : "xs"}
 		>
 			<Flex justify="space-between" align="center" position="relative">
 				<Box flex="1">
